@@ -71,6 +71,26 @@ namespace BackEnd.Migrations
                     b.ToTable("Feed");
                 });
 
+            modelBuilder.Entity("BackEnd.Data.Models.Friendship", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ReceiverId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RequesterId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Friendships");
+                });
+
             modelBuilder.Entity("BackEnd.Data.Models.Likes", b =>
                 {
                     b.Property<Guid>("LikeId")

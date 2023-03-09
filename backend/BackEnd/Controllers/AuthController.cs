@@ -1,7 +1,6 @@
 ﻿using BackEnd.Data;
 using BackEnd.Data.Models;
 using BackEnd.DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackEnd.Controllers
@@ -38,7 +37,7 @@ namespace BackEnd.Controllers
             {
                 WalletId = BCrypt.Net.BCrypt.HashPassword(registerDTO.WalletId),
                 Email = BCrypt.Net.BCrypt.HashPassword(registerDTO.Email),
-                Username = BCrypt.Net.BCrypt.HashPassword(registerDTO.Username),
+                Username = registerDTO.Username,
                 Password = BCrypt.Net.BCrypt.HashPassword(registerDTO.Password)
             };
 
@@ -51,10 +50,8 @@ namespace BackEnd.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO loginDto)
         {
-
             var users = _context.Users.ToList();
             User foundUser = null;
-
 
             foreach (var user in users)
             {
@@ -72,7 +69,7 @@ namespace BackEnd.Controllers
 
             if (BCrypt.Net.BCrypt.Verify(loginDto.password, foundUser.Password))
             {
-                HttpContext.Session.SetString("walletId", foundUser.Id.ToString());
+                HttpContext.Session.SetString("userId", foundUser.Id.ToString());
                 return Ok();
             }
             return BadRequest("Wrong username or password.");

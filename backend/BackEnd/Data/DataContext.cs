@@ -9,6 +9,7 @@ namespace BackEnd.Data
         public DbSet<Feed> Feed { get; set; }
         public DbSet<Likes> Likes { get; set; }
         public DbSet<Coments> Coments { get; set; }
+        public DbSet<Friendship> Friendships { get; set; }
         public DataContext(DbContextOptions options) : base(options)
         {
         }
