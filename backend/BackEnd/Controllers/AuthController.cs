@@ -46,6 +46,37 @@ namespace BackEnd.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
-   
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDTO loginDto)
+        {
+
+            var users = _context.Users.ToList();
+            User foundUser = null;
+
+
+            foreach (var user in users)
+            {
+                if (BCrypt.Net.BCrypt.Verify(loginDto.email, user.Email))
+                {
+                    foundUser = user;
+                    break; // Exit the loop since you found the user
+                }
+            }
+
+            if (foundUser == null)
+            {
+                return BadRequest("User does not exist.");
+            }
+
+            if (BCrypt.Net.BCrypt.Verify(loginDto.password, foundUser.Password))
+            {
+                HttpContext.Session.SetString("walletId", foundUser.Id.ToString());
+                return Ok();
+            }
+            return BadRequest("Wrong username or password.");
+        }
+
     }
 }
