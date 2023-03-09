@@ -1,34 +1,63 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import React, { useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { useWeb3React } from '@web3-react/core';
+import { connectorHooks, getName } from './utils/connectors';
+import { MARKETPLACE_ADDRESS, S2L_ADDRESS } from './constants/constants';
+import MARKETPLACE_ABI from './constants/abis/Marketplace.json';
+import S2L_ABI from './constants/abis/S2LToken.json';
+import { getContract } from './utils/utils';
+import useBalance from './hooks/useBalance';
+import { Web3ContextProvider } from './hooks/useWeb3Context';
+
+import Home from './pages/Home';
+import Header  from './components/Header';
+import Marketplace from './pages/Marketplace';
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [balanceUpdate, setBalanceUpdate] = useState(false);
+  const { connector } = useWeb3React();
+  const hooks = connectorHooks[getName(connector)];
+  const { useAccount, useAccounts, useIsActive, useProvider } = hooks;
+  const provider = useProvider();
+  const account = useAccount();
+  const isActive = useIsActive();
+  const accounts = useAccounts();
+  const tokenContract = getContract(S2L_ADDRESS, S2L_ABI.abi, provider, account);
+  const contract = getContract(MARKETPLACE_ADDRESS, MARKETPLACE_ABI.abi, provider, account);
+  const balance = useBalance(
+    isActive,
+    provider,
+    account,
+    tokenContract,
+    balanceUpdate,
+    setBalanceUpdate,
+  );
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+    <Web3ContextProvider
+      value={{
+        connector,
+        provider,
+        account,
+        isActive,
+        accounts,
+        tokenContract,
+        contract,
+        balance,
+        setBalanceUpdate,
+      }}
+    >
+      <BrowserRouter>
+        <div className="wrapper">
+          <Header/>
+          <div className="main">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/marketplace" element={<Marketplace />} />
+            </Routes>
+          </div>
+        </div>
+      </BrowserRouter>
+    </Web3ContextProvider>
+  );
 }
-
-export default App
+export default App;
