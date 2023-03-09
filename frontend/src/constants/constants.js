@@ -1,5 +1,5 @@
-export const S2L_ADDRESS = '0x0554B393a6d9E96fb1686A3F4e8f36D36b0846a2';
-export const MARKETPLACE_ADDRESS = '0x94A0824a11986777180A5D27ec12Ad829857ede2';
+export const S2L_ADDRESS = '0xdEb7de5998ea9248c717320a3DEC5C60b20ee11D';
+export const MARKETPLACE_ADDRESS = '0xC5fadd95acD7349fe2688fB996aEd52F6fEa6c1c';
 export const SUBGRAPH_URL =
-    'https://api.studio.thegraph.com/query/39731/decentralised-ticketing-system/v0.3.5';
+    'https://api.studio.thegraph.com/query/39731/hacktues9/v0.0.7';
 export const W3LINK_URL = 'https://w3s.link/ipfs';

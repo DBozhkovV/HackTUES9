@@ -31,7 +31,7 @@ contract S2LToken is ERC20, Ownable {
         );
     }
 
-    function setmarketplaceContractAddress(
+    function setMarketplaceContractAddress(
         address _marketplaceContractAddress
     ) external onlyOwner {
         marketplaceContractAddress = _marketplaceContractAddress;

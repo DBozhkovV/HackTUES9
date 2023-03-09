@@ -16,9 +16,10 @@ contract Marketplace is Ownable, ERC721URIStorage {
         bytes32 indexed offerId,
         address indexed seller,
         uint256 indexed tokenId,
+        string tokenURI,
         uint256 price,
         string itemName,
-        string tokenURI
+        string itemImage
     );
     event CancelOffer(bytes32 indexed offerId);
     event BuyOffer(bytes32 indexed offerId, address indexed buyer);
@@ -54,6 +55,7 @@ contract Marketplace is Ownable, ERC721URIStorage {
     function createOffer(
         uint256 price,
         string calldata itemName,
+        string calldata itemImage,
         string calldata tokenURI
     ) external {
         require(price > 0, "Price must be greater than 0");
@@ -69,6 +71,7 @@ contract Marketplace is Ownable, ERC721URIStorage {
             tokenId,
             price,
             itemName,
+            itemImage,
             tokenURI,
             false,
             false
@@ -77,9 +80,10 @@ contract Marketplace is Ownable, ERC721URIStorage {
             offerId,
             msg.sender,
             tokenId,
+            tokenURI,
             price,
             itemName,
-            tokenURI
+            itemImage
         );
     }
 

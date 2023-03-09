@@ -7,24 +7,23 @@
 const hre = require("hardhat");
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  const [deployer] = await ethers.getSigners();
+  console.log("Deploying contracts with the account:", deployer.address);
+  console.log("Account balance:", (await deployer.getBalance()).toString());
 
-  const lockedAmount = hre.ethers.utils.parseEther("1");
+  const S2LToken = await hre.ethers.getContractFactory("S2LToken"); 
+  const s2lToken = await S2LToken.deploy(); 
+  await s2lToken.deployed(); 
+  console.log("Tokens contract deployed to address: ", s2lToken.address);
 
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
-
-  await lock.deployed();
-
-  console.log(
-    `Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
-  );
+  const Marketplace = await hre.ethers.getContractFactory("Marketplace");
+  const marketplace = await Marketplace.deploy(s2lToken.address);
+  await marketplace.deployed();
+  await s2lToken.setMarketplaceContractAddress(marketplace.address);
+  console.log("Ticket generator contract deployed to address: ", marketplace.address);
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
+
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;

@@ -1,0 +1,21 @@
+type Offer @entity {
+    id: ID!
+    seller: User!
+    buyer: User
+    price: BigInt!
+    tokenId: BigInt!
+    tokenURI: String!
+    itemName: String!
+    itemImage: String!
+    isSold: Boolean!
+    isCancelled: Boolean!
+    deleted: Boolean!
+}
+
+type User @entity {
+    id: ID!
+    address: Bytes! # address
+    balance: BigInt!
+    offers: [Offer!]! @derivedFrom(field: "seller")
+    purchases: [Offer!]! @derivedFrom(field: "buyer")
+}

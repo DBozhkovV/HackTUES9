@@ -9,6 +9,7 @@ library Structs {
         uint256 tokenId;
         uint256 price;
         string name;
+        string image;
         string tokenURI;
         bool isSold;
         bool isCancelled;
