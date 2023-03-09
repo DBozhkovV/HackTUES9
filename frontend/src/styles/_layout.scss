@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header-wrapper {
+  height: 75px;
+}
+
+.header {
+  width: 100%;
+  top: 0;
+  transition: top 0.4s;
+  background-color: $light;
+}
+
+.main {
+  flex: 1;
+}
+
+.footer {
+  background-color: $light;
+  padding: 24px;
+}
