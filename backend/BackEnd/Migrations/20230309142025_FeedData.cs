@@ -12,21 +12,35 @@ namespace BackEnd.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    WalletId = table.Column<string>(type: "text", nullable: false),
+                    Username = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Feed",
                 columns: table => new
                 {
                     FeedId = table.Column<Guid>(type: "uuid", nullable: false),
                     Key = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: false),
-                    UserId1 = table.Column<Guid>(type: "uuid", nullable: false)
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Feed", x => x.FeedId);
                     table.ForeignKey(
-                        name: "FK_Feed_Users_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_Feed_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -39,8 +53,7 @@ namespace BackEnd.Migrations
                     ComentsId = table.Column<Guid>(type: "uuid", nullable: false),
                     Coment = table.Column<string>(type: "text", nullable: false),
                     FeedId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: false),
-                    UserId1 = table.Column<Guid>(type: "uuid", nullable: false)
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,8 +65,8 @@ namespace BackEnd.Migrations
                         principalColumn: "FeedId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Coments_Users_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_Coments_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -66,8 +79,7 @@ namespace BackEnd.Migrations
                     LikeId = table.Column<Guid>(type: "uuid", nullable: false),
                     Id = table.Column<int>(type: "integer", nullable: false),
                     FeedId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: false),
-                    UserId1 = table.Column<Guid>(type: "uuid", nullable: false)
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -79,8 +91,8 @@ namespace BackEnd.Migrations
                         principalColumn: "FeedId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Likes_Users_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_Likes_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -92,14 +104,14 @@ namespace BackEnd.Migrations
                 column: "FeedId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Coments_UserId1",
+                name: "IX_Coments_UserId",
                 table: "Coments",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Feed_UserId1",
+                name: "IX_Feed_UserId",
                 table: "Feed",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Likes_FeedId",
@@ -107,9 +119,9 @@ namespace BackEnd.Migrations
                 column: "FeedId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Likes_UserId1",
+                name: "IX_Likes_UserId",
                 table: "Likes",
-                column: "UserId1");
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -123,6 +135,9 @@ namespace BackEnd.Migrations
 
             migrationBuilder.DropTable(
                 name: "Feed");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

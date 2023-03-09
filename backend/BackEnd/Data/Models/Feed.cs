@@ -10,7 +10,7 @@ namespace BackEnd.Data.Models
         public Guid FeedId { get; set; }
         public string Key { get; set; }
         public string Description { get; set; }
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<Likes> Likes { get; set; }
         public virtual ICollection<Coments> Coments { get; set; }

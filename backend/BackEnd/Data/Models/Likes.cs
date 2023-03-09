@@ -11,7 +11,7 @@ namespace BackEnd.Data.Models
         public int Id { get; set; }
         public Guid FeedId { get; set; }
         public virtual Feed Feed { get; set; }
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
         public virtual User User { get; set; }
     }
 }
