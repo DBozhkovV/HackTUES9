@@ -69,5 +69,22 @@ namespace BackEnd.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
+        [HttpGet("/GetPosts")]
+        public async Task<IActionResult> GetPosts() {
+            var posts = _context.Feed.ToList();
+            return Ok(posts);
+        }
+        [HttpGet("/GetLikes")]
+        public async Task<IActionResult> GetLikes(Guid feedId)
+        {
+            var likes = _context.Likes.Where(x => x.FeedId.Equals(feedId)).ToList();
+            return Ok(likes);
+        }
+        [HttpGet("/GetComments")]
+        public async Task<IActionResult> GetComments(Guid feedId)
+        {
+            var comments = _context.Coments.Where(x => x.FeedId.Equals(feedId)).ToList();
+            return Ok(comments);
+        }
     }
 }
