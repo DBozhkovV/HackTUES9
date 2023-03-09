@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "CtnLo8nsuqPOhtOy7p7xiHYYUogInLRb90MBcxFGs1ONOHW6zmyNj46j+AL7k67yQTXwmk96xc5LQMD4XwJhrw==",
+  "dgSpecHash": "POJnOKQJ4oYAAd4cS1ctIHfguEjwetFBES7WGPXh/Im40Xckq3dnUwqYcHvwHyfMUD5QDvEX5EA0l2HcJ4sj9Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\Bozhkov\\Desktop\\BackEnd\\BackEnd\\BackEnd.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Bozhkov\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Bozhkov\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\Bozhkov\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Bozhkov\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

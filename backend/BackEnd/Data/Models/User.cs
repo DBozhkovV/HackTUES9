@@ -5,15 +5,22 @@ namespace BackEnd.Data.Models
     public class User
     {
         [Key]
-        public string Id;
+        public Guid Id { get; set; }
 
         [Required]
-        public string Username;
+        public string WalletId { get; set; }
 
         [Required]
-        public string Email;
+        public string Username { get; set; }
 
         [Required]
-        public string Password;
+        public string Email { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+
+        public User() 
+        {
+        }
     }
 }
