@@ -4,6 +4,28 @@
 @import 'typography.scss';
 @import 'layout.scss';
 
+
+.posts {
+  display: flex;
+  justify-content: center;
+  margin: 0 -10px;
+}
+.custom-card {
+  margin: 10px;
+  width: 300px;
+}
+
+.custom-card-body {
+  margin: 10px;
+}
+
+@media screen and (max-width: 767px) {
+  .custom-card {
+    width: 100%;
+  }
+}
+
+
 .event-card {
   border-radius: 4%;
   padding: 8px;

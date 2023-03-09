@@ -18,7 +18,7 @@ function Header() {
       ? str.substr(0, n - 1) + '...' + str.substr(str.length - 4, str.length - 1)
       : str;
   }
-  
+
   useEffect(() => {
     connector.connectEagerly().catch(() => {
       console.debug('Failed to connect eagerly');
@@ -39,9 +39,9 @@ function Header() {
   }, []);
 
   return (
-    <Navbar 
-      bg="light" 
-      expand="xl" 
+    <Navbar
+      bg="light"
+      expand="xl"
       className="header"
       sticky='top'
       ref={navRef}
@@ -55,7 +55,10 @@ function Header() {
           </Offcanvas.Header>
           <Offcanvas.Body className="align-items-center justify-content-between">
             <Nav className="d-flex align-items-center">
-              <Link className="mx-2" to="events">
+              <Link className="mx-2" to="posts">
+                Posts
+              </Link>
+              <Link className="mx-2" to="chat">
                 Chat
               </Link>
               <Link className="mx-2" to="marketplace">

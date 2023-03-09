@@ -12,6 +12,7 @@ import { Web3ContextProvider } from './hooks/useWeb3Context';
 import Home from './pages/Home';
 import Header  from './components/Header';
 import Marketplace from './pages/Marketplace';
+import Posts from './pages/Posts';
 
 function App() {
   const [balanceUpdate, setBalanceUpdate] = useState(false);
@@ -53,6 +54,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/marketplace" element={<Marketplace />} />
+              <Route path="/posts" element={<Posts />} />
             </Routes>
           </div>
         </div>

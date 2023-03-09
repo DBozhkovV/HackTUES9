@@ -1,3 +1,4 @@
+using Amazon.S3;
 using BackEnd.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +20,8 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
     options.Cookie.HttpOnly = true;
 });
-
+builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
+builder.Services.AddAWSService<IAmazonS3>();
 builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresDatabase")));
 
 var app = builder.Build();

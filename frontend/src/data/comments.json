@@ -1,0 +1,62 @@
+[
+    {
+      "id": 1,
+      "postId": 1,
+      "author": "John",
+      "content": "Great post!"
+    },
+    {
+      "id": 2,
+      "postId": 1,
+      "author": "Jane",
+      "content": "Thanks for sharing!"
+    },
+    {
+      "id": 3,
+      "postId": 1,
+      "author": "Bob",
+      "content": "I agree, this is really helpful"
+    },
+    {
+      "id": 4,
+      "postId": 1,
+      "author": "Alice",
+      "content": "I've been looking for this information. Thank you!"
+    },
+    {
+      "id": 5,
+      "postId": 1,
+      "author": "Chris",
+      "content": "Awesome post, keep up the good work!"
+    },
+    {
+      "id": 6,
+      "postId": 2,
+      "author": "Samantha",
+      "content": "This is amazing!"
+    },
+    {
+      "id": 7,
+      "postId": 2,
+      "author": "Jim",
+      "content": "I had no idea about this, thanks for sharing"
+    },
+    {
+      "id": 8,
+      "postId": 2,
+      "author": "Mark",
+      "content": "Really informative, thanks!"
+    },
+    {
+      "id": 9,
+      "postId": 3,
+      "author": "Jennifer",
+      "content": "Love this post, keep it up!"
+    },
+    {
+      "id": 10,
+      "postId": 3,
+      "author": "Tom",
+      "content": "Thanks for the helpful tips!"
+    }
+  ]
