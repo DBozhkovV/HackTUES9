@@ -8,6 +8,8 @@
     ".NETCoreApp,Version=v6.0": {
       "BackEnd/1.0.0": {
         "dependencies": {
+          "AWSSDK.Extensions.NETCore.Setup": "3.7.5",
+          "AWSSDK.S3": "3.7.103.23",
           "BCrypt.Net-Next": "4.0.3",
           "EntityFramework": "6.4.4",
           "Microsoft.EntityFrameworkCore": "7.0.3",
@@ -17,6 +19,39 @@
         },
         "runtime": {
           "BackEnd.dll": {}
+        }
+      },
+      "AWSSDK.Core/3.7.105.15": {
+        "runtime": {
+          "lib/netcoreapp3.1/AWSSDK.Core.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.105.15"
+          }
+        }
+      },
+      "AWSSDK.Extensions.NETCore.Setup/3.7.5": {
+        "dependencies": {
+          "AWSSDK.Core": "3.7.105.15",
+          "Microsoft.Extensions.Configuration.Abstractions": "7.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "7.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/AWSSDK.Extensions.NETCore.Setup.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.5.0"
+          }
+        }
+      },
+      "AWSSDK.S3/3.7.103.23": {
+        "dependencies": {
+          "AWSSDK.Core": "3.7.105.15"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/AWSSDK.S3.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.103.23"
+          }
         }
       },
       "BCrypt.Net-Next/4.0.3": {
@@ -534,6 +569,27 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "AWSSDK.Core/3.7.105.15": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/NU182nH9aFcnRgfxxMkV40yBIkYdBGLA4IsAavA518SclQd2G0kJrME9Pz1N6WqyDayWjLF14sxOWrw28IEqg==",
+      "path": "awssdk.core/3.7.105.15",
+      "hashPath": "awssdk.core.3.7.105.15.nupkg.sha512"
+    },
+    "AWSSDK.Extensions.NETCore.Setup/3.7.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-T+JpP2dFbyAFgm5htiwx9oaGZ9+IVGz5xpBCzCbLWW4lwmVWn3o1Wzi4xUpAo+TULWlzf4CBhuJ9chO0YtAGVw==",
+      "path": "awssdk.extensions.netcore.setup/3.7.5",
+      "hashPath": "awssdk.extensions.netcore.setup.3.7.5.nupkg.sha512"
+    },
+    "AWSSDK.S3/3.7.103.23": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3jh7aQILGbz5VofE8gd9F2ldy0JAm3X6cgZpXKjqPwsczOBUxCy1vq0GbuGIi8gpP9+mvq8j+6b/vumTNMjnLw==",
+      "path": "awssdk.s3/3.7.103.23",
+      "hashPath": "awssdk.s3.3.7.103.23.nupkg.sha512"
     },
     "BCrypt.Net-Next/4.0.3": {
       "type": "package",
