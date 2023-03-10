@@ -4,6 +4,6 @@
     {
         public IFormFile file { get; set; }
         public string Description { get; set; }
-        public Guid id { get; set; }
+        
     }
 }

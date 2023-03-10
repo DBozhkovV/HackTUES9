@@ -22,7 +22,8 @@ namespace BackEnd.Controllers
         }
         [HttpPost("/AddPost")]
         public async Task<IActionResult> AddPost([FromForm]FeedDto feedDto) {
-            if (HttpContext.Session.GetString("walletId") == null) { return BadRequest("You have to be loged In"); }
+            if (HttpContext.Session.GetString("userId") == null) { return BadRequest("You have to be loged In"); }
+            var personId = Guid.Parse(HttpContext.Session.GetString("userId"));
             var bucketExists = await _s3Client.DoesS3BucketExistAsync(bucketName);
             if (!bucketExists) return NotFound($"Bucket {bucketName} does not exist.");
             var request = new PutObjectRequest()
@@ -34,7 +35,7 @@ namespace BackEnd.Controllers
             var Feed = new Feed() {
                 Key = request.Key,
                 Description = feedDto.Description,
-                UserId = feedDto.id
+                UserId = personId,
             };
             _context.Feed.Add(Feed);
             await _context.SaveChangesAsync();
@@ -44,12 +45,13 @@ namespace BackEnd.Controllers
         }
         [HttpPost("/Like")]
         public async Task<IActionResult> LikePost(Like likeDto) {
-            if (HttpContext.Session.GetString("walletId") == null) { return BadRequest("You have to be loged In"); }
-            var likeExists = _context.Likes.Where(x => x.UserId.Equals(likeDto.UserId) && x.FeedId.Equals(likeDto.PostId)).FirstOrDefault();
+            if (HttpContext.Session.GetString("userId") == null) { return BadRequest("You have to be loged In"); }
+            var personId = Guid.Parse(HttpContext.Session.GetString("userId"));
+            var likeExists = _context.Likes.Where(x => x.UserId.Equals(personId) && x.FeedId.Equals(likeDto.PostId)).FirstOrDefault();
             if (likeExists != null) { return Ok("You awrady liked the photo"); }
             var like = new Likes() {
                 FeedId= likeDto.PostId,
-                UserId = likeDto.UserId,
+                UserId = personId,
             };
             _context.Likes.Add(like);
             await _context.SaveChangesAsync();
@@ -58,11 +60,16 @@ namespace BackEnd.Controllers
             return Ok();
         }
         [HttpPost("/Coment")]
-        public async Task<IActionResult> Coment(ComentDto comentDto) {
-            if (HttpContext.Session.GetString("walletId") == null) { return BadRequest("You have to be loged In"); }
-            var Coment = new Coments() {
+        public async Task<IActionResult> Coment(ComentDto comentDto)
+        {
+            
+            if (HttpContext.Session.GetString("userId") == null) { return BadRequest("You have to be loged In"); }
+            var personId = Guid.Parse(HttpContext.Session.GetString("userId"));
+            var Coment = new Coments()
+            {
                 FeedId = comentDto.PostId,
-                UserId = comentDto.UserId,
+                UserId = personId,
+
                 Coment = comentDto.Coment,
             };
             _context.Coments.Add(Coment);
@@ -70,9 +77,24 @@ namespace BackEnd.Controllers
             return Ok();
         }
         [HttpGet("/GetPosts")]
-        public async Task<IActionResult> GetPosts() {
-            var posts = _context.Feed.ToList();
-            return Ok(posts);
+        public async Task<IActionResult> GetPosts()
+        {
+
+            var personId = Guid.Parse(HttpContext.Session.GetString("userId"));
+            var friends = _context.Friendships.Where(x => (x.RequesterId.Equals(personId) || x.ReceiverId.Equals(personId)) && (x.status == RequestStatus.Accepted)).ToList();
+            List<Feed> YourFeed = new List<Feed>();
+            for (int i = 0; i < friends.Count; i++)
+            {
+                var posts = _context.Feed.Where(x => x.UserId.Equals(friends[i].RequesterId) || x.UserId.Equals(friends[i].ReceiverId)).ToList();
+                for (int j = 0; j < posts.Count; j++)
+                {
+                    YourFeed.Add(posts[j]);
+                }
+
+
+            }
+
+            return Ok(YourFeed);
         }
         [HttpGet("/GetLikes")]
         public async Task<IActionResult> GetLikes(Guid feedId)
