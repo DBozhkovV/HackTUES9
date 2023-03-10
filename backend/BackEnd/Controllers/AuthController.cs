@@ -50,6 +50,11 @@ namespace BackEnd.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO loginDto)
         {
+            if (HttpContext.Session.GetString("userId") != null)
+            {
+                return BadRequest("Have an exist session.");
+            }
+
             var users = _context.Users.ToList();
             User foundUser = null;
 
@@ -73,6 +78,20 @@ namespace BackEnd.Controllers
                 return Ok();
             }
             return BadRequest("Wrong username or password.");
+        }
+
+        [HttpPost]
+        [Route("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            if (HttpContext.Session.GetString("userId") is null)
+            {
+                return BadRequest("Don't have exist session.");
+            }
+            Response.Cookies.Delete("ASP");
+            HttpContext.Session.Remove("userId");
+            HttpContext.Session.Clear();
+            return Ok();
         }
 
     }
