@@ -20,8 +20,8 @@ namespace BackEnd.Controllers
         }
 
         [HttpPost]
-        [Route("send/{receiverId}")]
-        public async Task<IActionResult> SendFriendRequest([FromRoute] Guid receiverId)
+        [Route("send")]
+        public async Task<IActionResult> SendFriendRequest(SendFriendRequest sendFriendRequest)
         {
             if (HttpContext.Session.GetString("userId") == null) 
             {
@@ -36,7 +36,7 @@ namespace BackEnd.Controllers
                 return BadRequest("There's no such a user.");
             }
 
-            var receiverUser = _context.Users.FirstOrDefault(x => x.Id == receiverId);
+            var receiverUser = _context.Users.FirstOrDefault(x => x.Username == sendFriendRequest.Username);
             if (receiverUser == null)
             {
                 return BadRequest("Invalid request.");
@@ -45,7 +45,7 @@ namespace BackEnd.Controllers
             var newFriendRequest = new Friendship()
             {
                 RequesterId = requesterId,
-                ReceiverId = receiverId
+                ReceiverId = receiverUser.Id
             };
 
             await _context.Friendships.AddAsync(newFriendRequest);

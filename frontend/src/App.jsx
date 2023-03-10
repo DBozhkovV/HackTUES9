@@ -18,6 +18,9 @@ import Sidebar from './components/Sidebar';
 import { ethers } from 'ethers';
 import { Biconomy } from "@biconomy/mexa";
 let biconomy;
+import Chat from './components/Chat';
+import FriendRequests from './components/FriendRequests';
+
 function App() {
   const [balanceUpdate, setBalanceUpdate] = useState(false);
   const { connector } = useWeb3React();
@@ -88,7 +91,7 @@ function App() {
       <BrowserRouter>
         <div className="wrapper">
           <Header/>
-          {/* <Sidebar/> */}
+          <Sidebar/>
           <div className="main">
             <Routes>
               <Route path="/" element={<Home />} />
@@ -96,6 +99,8 @@ function App() {
               <Route path="/posts" element={<Posts />} />
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/chat" element={<Chat />} />
+              <Route path="/requests" element={<FriendRequests />} />
             </Routes>
           </div>
         </div>

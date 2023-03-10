@@ -44,7 +44,7 @@ function Header() {
               <Button variant="outline-primary" className="mx-2" onClick={() => navigate("/posts")}>
                 Posts
               </Button>
-              <Button variant="outline-primary" className="mx-2" onClick={() => navigate("/")}>
+              <Button variant="outline-primary" className="mx-2" onClick={() => navigate("/chat")}>
                 Chat
               </Button>
               <Button className="mx-2" variant="outline-primary" onClick={() => navigate("/marketplace")}>
@@ -83,7 +83,7 @@ function Header() {
                 </p>
               </div>
             ) : (
-              <SelectWalletModal />
+              null
             )}
           </Offcanvas.Body>
         </Navbar.Offcanvas>

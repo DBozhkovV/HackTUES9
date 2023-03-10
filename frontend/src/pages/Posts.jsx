@@ -1,24 +1,28 @@
-import React, { useState } from 'react';
-import { Modal, Row, Col, Button } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Modal, Button } from 'react-bootstrap';
 import CreatePostForm from '../components/CreatePostForm';
 import Post from '../components/Post';
-import comments from '../data/comments.json';
-import postsData from '../data/posts.json';
 import '../styles/_posts.scss';
 
 function Posts() {
   const [showModal, setShowModal] = useState(false);
-
+  const [posts, setPosts] = useState([]);
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
-
-  const posts = JSON.parse(JSON.stringify(postsData));
-   // create a deep copy of the posts array
-
-  posts.forEach((post) => {
-    post.comments = comments.filter((comment) => comment.postId === post.id);
-    });
-
+  
+  useEffect(() => {
+    const getPosts = async () => {
+      await axios.get(`https://localhost:7160/GetPosts`, { withCredentials: true })
+          .then(response => {
+              setPosts(response.data);
+          })
+          .catch(error => {
+              console.error(error);
+          })
+    }
+    getPosts();
+  }, []);
+  
   return (
     <div>
       <h1>Posts</h1>

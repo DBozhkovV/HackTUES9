@@ -1,0 +1,13 @@
+.login-frame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: inherit;
+    justify-content: center;
+}
+
+.wallet-button {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 300px;
+}

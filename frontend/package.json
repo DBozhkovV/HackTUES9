@@ -16,6 +16,7 @@
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@ethersproject/contracts": "^5.7.0",
     "@ethersproject/units": "^5.7.0",
+    "@microsoft/signalr": "^7.0.3",
     "@web3-react/coinbase-wallet": "^8.1.2-beta.0",
     "@web3-react/core": "^8.1.2-beta.0",
     "@web3-react/metamask": "^8.1.2-beta.0",
