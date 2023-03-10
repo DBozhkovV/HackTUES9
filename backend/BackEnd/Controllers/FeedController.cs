@@ -103,7 +103,20 @@ namespace BackEnd.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
-        
+        [HttpPut("/EditUsername")]
+        public async Task<IActionResult> EditUserName(string userName)
+        {
+            if (HttpContext.Session.GetString("userId") == null)
+            {
+                return BadRequest("You have to be loged In");
+            }
+            var personId = Guid.Parse(HttpContext.Session.GetString("userId"));
+            var person = _context.Users.Find(personId);
+            _context.Users.Update(person);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
         [HttpGet("/GetPosts")]
         public async Task<IActionResult> GetPosts()
         {
