@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using BackEnd.Data;
 using BackEnd.Data.Models;
+using BackEnd.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackEnd.Controllers
@@ -10,10 +11,12 @@ namespace BackEnd.Controllers
     public class ChatController : ControllerBase
     {
         private readonly DataContext _context;
+        private readonly ChatHub _chatHub;
 
-        public ChatController(DataContext context)
+        public ChatController(DataContext context, ChatHub chatHub)
         {
             _context = context;
+            _chatHub = chatHub;
         }
 
         [HttpPost]
@@ -39,6 +42,8 @@ namespace BackEnd.Controllers
 
             _context.Messages.Add(chatMessage);
             await _context.SaveChangesAsync();
+
+            _chatHub.SendMessage(senderId, receiverId, message);
             return Ok(chatMessage);
         }
     }

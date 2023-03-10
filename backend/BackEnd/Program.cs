@@ -1,5 +1,6 @@
 using Amazon.S3;
 using BackEnd.Data;
+using BackEnd.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSignalR();
+
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ChatHub>();
 
 builder.Services.AddSession(options =>
 {
@@ -39,6 +46,8 @@ app.UseAuthorization();
 
 app.UseSession();
 
+
 app.MapControllers();
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();
