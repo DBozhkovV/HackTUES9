@@ -14,6 +14,7 @@ import Home from './pages/Home';
 import Header  from './components/Header';
 import Marketplace from './pages/Marketplace';
 import Posts from './pages/Posts';
+import Sidebar from './components/Sidebar';
 
 function App() {
   const [balanceUpdate, setBalanceUpdate] = useState(false);
@@ -51,6 +52,7 @@ function App() {
       <BrowserRouter>
         <div className="wrapper">
           <Header/>
+          <Sidebar/>
           <div className="main">
             <Routes>
               <Route path="/" element={<Home />} />

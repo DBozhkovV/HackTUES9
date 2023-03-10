@@ -1,5 +1,6 @@
 import { defineConfig, splitVendorChunkPlugin } from 'vite';
 // import { chunkSplitPlugin } from 'vite-plugin-chunk-split';
+import mkcert from 'vite-plugin-mkcert';
 import react from '@vitejs/plugin-react';
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
@@ -20,6 +21,7 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+    https: true,
   },
   build: {
     outDir: 'build',
@@ -29,6 +31,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    mkcert(),
     react({ plugins: [['@swc/plugin-styled-components', {}]] }),
     splitVendorChunkPlugin(),
     // chunkSplitPlugin({
