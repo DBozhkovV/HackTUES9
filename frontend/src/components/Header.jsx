@@ -12,6 +12,7 @@ import md5 from 'md5';
 function Header() {
   const { connector, provider, account, isActive, balance, contract, setBalanceUpdate } = useWeb3Context();
   const navigate = useNavigate();
+  const isUser = sessionStorage.getItem('isUser');
   function truncate(str, n) {
     return str.length > n
       ? str.substr(0, n - 1) + '...' + str.substr(str.length - 4, str.length - 1)
@@ -51,14 +52,17 @@ function Header() {
                 Marketplace
               </Button>
             </Nav>
-            <Navbar.Collapse className="justify-content-end">
-              <Button className="mx-2" variant="outline-primary" onClick={() => navigate("/login ")}>
-                Login
-              </Button>
-              <Button className="mx-2" variant="outline-primary" onClick={() => navigate("/register")}>
-                Register
-              </Button>
-            </Navbar.Collapse>
+            
+            {isUser ? null : (
+              <Navbar.Collapse className="justify-content-end">
+                <Button className="mx-2" variant="outline-primary" onClick={() => navigate("/login ")}>
+                  Login
+                </Button>
+                <Button className="mx-2" variant="outline-primary" onClick={() => navigate("/register")}>
+                  Register
+                </Button>
+              </Navbar.Collapse>
+            )}
             {isActive ? (
               <div className="d-flex align-items-center justify-content-end">
                 <div className="d-flex">

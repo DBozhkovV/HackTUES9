@@ -3,18 +3,30 @@ import { Form, Button } from "react-bootstrap";
 import "../styles/_register.scss";
 import { useWeb3Context } from '../hooks/useWeb3Context';
 import SelectWalletModal from './ConnectModal';
+import axios from "axios";
+import { useNavigate } from "react-router";
 
 const Register = () => {
-  const {account } = useWeb3Context();
+  const { account } = useWeb3Context();
   const [username, setUsername] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("username:", username);
-    console.log("email:", email);
-    console.log("password:", password);
+    await axios.post("https://localhost:7160/auth/register", {
+        walletId: account,
+        username: username,
+        email: email,
+        password: password
+    })
+    .then(() => {
+        navigate("/login");
+    })
+    .catch((error) => {
+        console.log(error);
+    });
   };
 
   return (
@@ -44,14 +56,16 @@ const Register = () => {
             onChange={(event) => setPassword(event.target.value)}
           />
         </Form.Group>
-        <div className="wallet-button">
-          <SelectWalletModal />
-        </div>
         {account ? (
           <Button variant="primary" type="submit" onClick={(event) => handleSubmit(event)}>
             Register
           </Button>
-          ) : null }
+          ) : (
+          <div className="wallet-button">
+            <SelectWalletModal />
+          </div>
+          )
+        }
       </Form>
     </div>
   );
