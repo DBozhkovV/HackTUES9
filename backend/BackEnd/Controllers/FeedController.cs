@@ -137,6 +137,12 @@ namespace BackEnd.Controllers
             }
             return Ok(YourFeed);
         }
+        [HttpGet("/UserFeed")]
+        public async Task<IActionResult> GetUsersPosts() {
+            var personId = Guid.Parse(HttpContext.Session.GetString("userId"));
+            var posts = _context.Feed.Where(x => x.UserId.Equals(personId)).ToList();
+            return Ok(posts);
+        }
         
         [HttpGet("/GetLikes")]
         public async Task<IActionResult> GetLikes(Guid feedId)
