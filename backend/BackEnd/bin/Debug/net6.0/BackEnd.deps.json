@@ -9,7 +9,7 @@
       "BackEnd/1.0.0": {
         "dependencies": {
           "AWSSDK.Extensions.NETCore.Setup": "3.7.5",
-          "AWSSDK.S3": "3.7.103.23",
+          "AWSSDK.S3": "3.7.103.24",
           "BCrypt.Net-Next": "4.0.3",
           "EntityFramework": "6.4.4",
           "Microsoft.EntityFrameworkCore": "7.0.3",
@@ -21,17 +21,17 @@
           "BackEnd.dll": {}
         }
       },
-      "AWSSDK.Core/3.7.105.15": {
+      "AWSSDK.Core/3.7.105.16": {
         "runtime": {
           "lib/netcoreapp3.1/AWSSDK.Core.dll": {
             "assemblyVersion": "3.3.0.0",
-            "fileVersion": "3.7.105.15"
+            "fileVersion": "3.7.105.16"
           }
         }
       },
       "AWSSDK.Extensions.NETCore.Setup/3.7.5": {
         "dependencies": {
-          "AWSSDK.Core": "3.7.105.15",
+          "AWSSDK.Core": "3.7.105.16",
           "Microsoft.Extensions.Configuration.Abstractions": "7.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "7.0.0"
@@ -43,14 +43,14 @@
           }
         }
       },
-      "AWSSDK.S3/3.7.103.23": {
+      "AWSSDK.S3/3.7.103.24": {
         "dependencies": {
-          "AWSSDK.Core": "3.7.105.15"
+          "AWSSDK.Core": "3.7.105.16"
         },
         "runtime": {
           "lib/netcoreapp3.1/AWSSDK.S3.dll": {
             "assemblyVersion": "3.3.0.0",
-            "fileVersion": "3.7.103.23"
+            "fileVersion": "3.7.103.24"
           }
         }
       },
@@ -570,12 +570,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "AWSSDK.Core/3.7.105.15": {
+    "AWSSDK.Core/3.7.105.16": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-/NU182nH9aFcnRgfxxMkV40yBIkYdBGLA4IsAavA518SclQd2G0kJrME9Pz1N6WqyDayWjLF14sxOWrw28IEqg==",
-      "path": "awssdk.core/3.7.105.15",
-      "hashPath": "awssdk.core.3.7.105.15.nupkg.sha512"
+      "sha512": "sha512-a5bazeQFYqN9wQahEOYrK41AZ39y3Xxm1zfxC8sIn7zjaLk2DVCk4LDYcApM2EdRjSK5al+gBHXe7O8cS/LcaA==",
+      "path": "awssdk.core/3.7.105.16",
+      "hashPath": "awssdk.core.3.7.105.16.nupkg.sha512"
     },
     "AWSSDK.Extensions.NETCore.Setup/3.7.5": {
       "type": "package",
@@ -584,12 +584,12 @@
       "path": "awssdk.extensions.netcore.setup/3.7.5",
       "hashPath": "awssdk.extensions.netcore.setup.3.7.5.nupkg.sha512"
     },
-    "AWSSDK.S3/3.7.103.23": {
+    "AWSSDK.S3/3.7.103.24": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-3jh7aQILGbz5VofE8gd9F2ldy0JAm3X6cgZpXKjqPwsczOBUxCy1vq0GbuGIi8gpP9+mvq8j+6b/vumTNMjnLw==",
-      "path": "awssdk.s3/3.7.103.23",
-      "hashPath": "awssdk.s3.3.7.103.23.nupkg.sha512"
+      "sha512": "sha512-hhf8Qe1N7yfZTQ9z+Ddo+9C2rZSe41NNcrhPW83I42bKRtWUJ0pxGO6hK8FMsP6sBkXRe91C8hpkcjO2sgbzjw==",
+      "path": "awssdk.s3/3.7.103.24",
+      "hashPath": "awssdk.s3.3.7.103.24.nupkg.sha512"
     },
     "BCrypt.Net-Next/4.0.3": {
       "type": "package",
