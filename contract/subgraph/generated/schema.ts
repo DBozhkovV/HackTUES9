@@ -77,24 +77,6 @@ export class Offer extends Entity {
     this.set("price", Value.fromBigInt(value));
   }
 
-  get tokenId(): BigInt {
-    let value = this.get("tokenId");
-    return value!.toBigInt();
-  }
-
-  set tokenId(value: BigInt) {
-    this.set("tokenId", Value.fromBigInt(value));
-  }
-
-  get tokenURI(): string {
-    let value = this.get("tokenURI");
-    return value!.toString();
-  }
-
-  set tokenURI(value: string) {
-    this.set("tokenURI", Value.fromString(value));
-  }
-
   get itemName(): string {
     let value = this.get("itemName");
     return value!.toString();
@@ -131,13 +113,115 @@ export class Offer extends Entity {
     this.set("isCancelled", Value.fromBoolean(value));
   }
 
-  get deleted(): boolean {
-    let value = this.get("deleted");
-    return value!.toBoolean();
+  get nft(): string {
+    let value = this.get("nft");
+    return value!.toString();
   }
 
-  set deleted(value: boolean) {
-    this.set("deleted", Value.fromBoolean(value));
+  set nft(value: string) {
+    this.set("nft", Value.fromString(value));
+  }
+
+  get createdAt(): BigInt {
+    let value = this.get("createdAt");
+    return value!.toBigInt();
+  }
+
+  set createdAt(value: BigInt) {
+    this.set("createdAt", Value.fromBigInt(value));
+  }
+
+  get acceptedAt(): BigInt | null {
+    let value = this.get("acceptedAt");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set acceptedAt(value: BigInt | null) {
+    if (!value) {
+      this.unset("acceptedAt");
+    } else {
+      this.set("acceptedAt", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get cancelledAt(): BigInt | null {
+    let value = this.get("cancelledAt");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set cancelledAt(value: BigInt | null) {
+    if (!value) {
+      this.unset("cancelledAt");
+    } else {
+      this.set("cancelledAt", Value.fromBigInt(<BigInt>value));
+    }
+  }
+}
+
+export class OfferNFT extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save OfferNFT entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type OfferNFT must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("OfferNFT", id.toString(), this);
+    }
+  }
+
+  static load(id: string): OfferNFT | null {
+    return changetype<OfferNFT | null>(store.get("OfferNFT", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get tokenId(): BigInt {
+    let value = this.get("tokenId");
+    return value!.toBigInt();
+  }
+
+  set tokenId(value: BigInt) {
+    this.set("tokenId", Value.fromBigInt(value));
+  }
+
+  get tokenURI(): string {
+    let value = this.get("tokenURI");
+    return value!.toString();
+  }
+
+  set tokenURI(value: string) {
+    this.set("tokenURI", Value.fromString(value));
+  }
+
+  get owner(): string {
+    let value = this.get("owner");
+    return value!.toString();
+  }
+
+  set owner(value: string) {
+    this.set("owner", Value.fromString(value));
   }
 }
 

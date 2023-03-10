@@ -6,7 +6,7 @@ dataSources:
       name: Marketplace
       network: goerli
       source:
-          address: "0xC5fadd95acD7349fe2688fB996aEd52F6fEa6c1c"
+          address: "0x2e40A1B292A7f4AEE1F4Ab96f13cBa9061e968A2"
           abi: Marketplace
           startBlock: 0
       mapping:
@@ -15,6 +15,7 @@ dataSources:
           language: wasm/assemblyscript
           entities:
               - Offer
+              - OfferNFT
               - User
           abis:
               - name: Marketplace

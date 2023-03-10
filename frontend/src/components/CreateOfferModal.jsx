@@ -63,12 +63,23 @@ function CreateOfferModal() {
             e.stopPropagation();
             setValidated(true);
             const imageCid = await uploadImmutableData([itemImage]);
+            const metadata = {
+                name: itemName,
+                description: `Price: ${price} S2L`,
+                image: `${W3LINK_URL}/${imageCid}/${itemImage.name}`,
+                properties: {
+                    price: price,
+                    senderName: senderName,
+                    senderPhone: senderPhone,
+                }
+            }
+            const metadataCid = await uploadImmutableData([new File([JSON.stringify(metadata)], `${itemName.trim()}_metadata.json`)]);
             const priceInWei = parseEther(price.toString());
             await contract.createOffer(
                 priceInWei,
                 itemName,
                 encodeURI(`${W3LINK_URL}/${imageCid}/${itemImage.name}`),
-                encodeURI(`${W3LINK_URL}/${imageCid}`),
+                encodeURI(`${W3LINK_URL}/${metadataCid}/${itemName.trim()}_metadata.json`),
             );
             handleClose();
         }

@@ -97,18 +97,47 @@ contract Marketplace is Ownable, ERC721URIStorage {
         emit CancelOffer(offerId);
     }
 
-    function buyOffer(bytes32 offerId) external {
+    function buyOffer(
+        bytes32 offerId,
+        uint256 deadline,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) external {
         require(!offers[offerId].isSold, "Offer is already sold");
         require(!offers[offerId].isCancelled, "Offer is already cancelled");
+        require(
+            offers[offerId].seller != msg.sender,
+            "Sellers cannot buy their own offer"
+        );
+        require(
+            offers[offerId].price <= token.balanceOf(msg.sender),
+            "Not enough balance"
+        );
 
-        token.transferFrom(
+        token.permit(
+            msg.sender,
+            address(this),
+            offers[offerId].price,
+            deadline,
+            v,
+            r,
+            s
+        );
+        require(
+            token.allowance(msg.sender, address(this)) >= offers[offerId].price,
+            "Not enough allowance"
+        );
+        bool success = token.transferFrom(
             msg.sender,
             offers[offerId].seller,
             offers[offerId].price
         );
+        require(success, "transferFrom failed");
         offers[offerId].isSold = true;
         offers[offerId].buyer = msg.sender;
         _transfer(offers[offerId].seller, msg.sender, offers[offerId].tokenId);
+        emit BuyOffer(offerId, msg.sender);
     }
 
     function deposit() public payable {

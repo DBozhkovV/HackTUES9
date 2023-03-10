@@ -20,7 +20,7 @@ async function main() {
   const marketplace = await Marketplace.deploy(s2lToken.address);
   await marketplace.deployed();
   await s2lToken.setMarketplaceContractAddress(marketplace.address);
-  console.log("Ticket generator contract deployed to address: ", marketplace.address);
+  console.log("Marketplace contract deployed to address: ", marketplace.address);
 }
 
 

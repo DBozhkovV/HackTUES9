@@ -11,7 +11,7 @@ import {
   Transfer,
   Withdraw
 } from "../generated/Marketplace/Marketplace";
-import { Offer, User } from "../generated/schema";
+import { Offer, OfferNFT, User } from "../generated/schema";
 
 export function handleApproval(event: Approval): void {}
 
@@ -27,8 +27,23 @@ export function handleBuyOffer(event: BuyOffer): void {
       user.balance = BigInt.fromI32(0);
       user.save();
     }
+    else {
+      user.balance = user.balance.minus(offer.price);
+      user.save();
+    }
+    let offerNFT = OfferNFT.load(offer.nft);
+    if (offerNFT !== null) {
+      offerNFT.owner = user.id;
+      offerNFT.save();
+    }
     offer.isSold = true;
     offer.buyer = user.id;
+    offer.acceptedAt = event.block.timestamp;
+    let seller = User.load(offer.seller);
+    if (seller !== null) {
+      seller.balance = seller.balance.plus(offer.price);
+      seller.save();
+    }
     offer.save();
   }
 }
@@ -37,6 +52,7 @@ export function handleCancelOffer(event: CancelOffer): void {
   let offer = Offer.load(event.params.offerId.toHex());
   if (offer !== null) {
     offer.isCancelled = true;
+    offer.cancelledAt = event.block.timestamp;
     offer.save();
   }
 }
@@ -50,15 +66,19 @@ export function handleCreateOffer(event: CreateOffer): void {
     user.save();
   }
   let offer = new Offer(event.params.offerId.toHex());
-  offer.tokenId = event.params.tokenId;
-  offer.tokenURI = event.params.tokenURI;
+  let offerNFT = new OfferNFT(event.params.tokenId.toHex());
+  offerNFT.tokenId = event.params.tokenId;
+  offerNFT.tokenURI = event.params.tokenURI;
+  offerNFT.owner = user.id;
+  offerNFT.save();
+  offer.nft = offerNFT.id;
   offer.itemName = event.params.itemName;
   offer.itemImage = event.params.itemImage;
   offer.price = event.params.price;
   offer.seller = user.id;
   offer.isSold = false;
   offer.isCancelled = false;
-  offer.deleted = false;
+  offer.createdAt = event.block.timestamp;
   offer.save();
 }
 

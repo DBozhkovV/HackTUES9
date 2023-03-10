@@ -498,6 +498,22 @@ export class BuyOfferCall__Inputs {
   get offerId(): Bytes {
     return this._call.inputValues[0].value.toBytes();
   }
+
+  get deadline(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get v(): i32 {
+    return this._call.inputValues[2].value.toI32();
+  }
+
+  get r(): Bytes {
+    return this._call.inputValues[3].value.toBytes();
+  }
+
+  get s(): Bytes {
+    return this._call.inputValues[4].value.toBytes();
+  }
 }
 
 export class BuyOfferCall__Outputs {
