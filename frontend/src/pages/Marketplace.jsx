@@ -49,7 +49,7 @@ function Marketplace() {
       }
     });
   };
-    if (loading) return <Loader />;
+  if (loading) return <Loader />;
     
   return (
     <div className="container">

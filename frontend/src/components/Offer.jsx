@@ -17,7 +17,6 @@ function Offer({ offer }) {
   const [senderStreetNumber, setSenderStreetNumber] = useState("");
   const [validated, setValidated] = useState(false);
   const { account, contract, tokenContract, setBalanceUpdate } = useWeb3Context();
-    console.log(offer);
   async function cancelOffer() {
   }
 

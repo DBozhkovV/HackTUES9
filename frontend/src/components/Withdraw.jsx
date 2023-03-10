@@ -35,7 +35,7 @@ function Withdraw() {
       e.preventDefault();
       setValidated(true);
       const amount = ethers.utils.parseEther(withdrawAmount);
-      const tx = await contract.userWithdraw(amount);
+      const tx = await contract.withdraw(amount);
       handleClose();
       await tx.wait();
       setValidated(false);

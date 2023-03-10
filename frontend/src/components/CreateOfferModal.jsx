@@ -2,7 +2,9 @@
 import React, { useState } from 'react';
 import { Button, Modal, Form, Row, Col } from 'react-bootstrap';
 import { resizeImage } from "../utils/utils";
-import { W3LINK_URL } from '../constants/constants';
+import { W3LINK_URL, MARKETPLACE_ADDRESS } from '../constants/constants';
+import MARKETPLACE_ABI from '../constants/abis/Marketplace.json';
+import { ethers } from 'ethers';
 import { parseEther } from "ethers/lib/utils";
 import { useWeb3Context } from "../hooks/useWeb3Context";
 import { uploadImmutableData } from '../utils/web3.storageEndpoints';
@@ -19,7 +21,7 @@ function CreateOfferModal() {
     const [senderStreet, setSenderStreet] = useState("");
     const [senderStreetNumber, setSenderStreetNumber] = useState("");
     const [validated, setValidated] = useState(false);
-    const { account, contract, tokenContract } = useWeb3Context();
+    const { account, contract, tokenContract, biconomy } = useWeb3Context();
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -75,16 +77,32 @@ function CreateOfferModal() {
             }
             const metadataCid = await uploadImmutableData([new File([JSON.stringify(metadata)], `${itemName.trim()}_metadata.json`)]);
             const priceInWei = parseEther(price.toString());
-            const tx = await contract.createOffer(
+            const provider = await biconomy.provider;
+            console.log("provider", provider);
+            const contractInstance = new ethers.Contract(
+              MARKETPLACE_ADDRESS,
+              MARKETPLACE_ABI.abi,
+              biconomy.ethersProvider
+            );
+            let { data } = await contractInstance.populateTransaction.createOffer(
                 priceInWei,
                 itemName,
                 encodeURI(`${W3LINK_URL}/${imageCid}/${itemImage.name}`),
                 encodeURI(`${W3LINK_URL}/${metadataCid}/${itemName.trim()}_metadata.json`),
             );
-            tx.wait().then(() => {
+            console.log("tddasdasasdasd", data);
+            let txParams = {
+              data: data,
+              to: MARKETPLACE_ADDRESS,
+              from: "0xE041608922d06a4F26C0d4c27d8bCD01daf1f792",
+              signatureType: "PERSONAL_SIGN",
+              gasLimit: 5000000,
+            };
+            console.log("txParams", txParams);
+            console.log(provider)
+            const tx = await provider.send("eth_sendTransaction", [txParams]);
                 //call bakcend to save credentials
                 handleClose();
-            });
         }
     }
 
