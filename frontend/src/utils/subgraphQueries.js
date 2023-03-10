@@ -9,7 +9,9 @@ export const OFFERS_QUERY = gql`
                 address    
             }
             price
-            tokenURI
+            nft{
+                tokenURI
+            }
             itemImage
             itemName
         }
@@ -27,8 +29,10 @@ export const USER_OFFERS_QUERY = gql`
             price
             itemName
             itemImage
-            tokenId
-            tokenURI
+            nft{
+                tokenId
+                tokenURI
+            }
             seller {
                 id
                 address

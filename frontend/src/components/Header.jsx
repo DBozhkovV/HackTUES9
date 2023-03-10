@@ -7,10 +7,10 @@ import SelectWalletModal from './ConnectModal';
 import Deposit from './Deposit';
 import Withdraw from './Withdraw';
 import { useWeb3Context } from '../hooks/useWeb3Context';
+import md5 from 'md5';
 
 function Header() {
   const { connector, provider, account, isActive, balance, contract, setBalanceUpdate } = useWeb3Context();
-  const navRef = useRef(null);
   const navigate = useNavigate();
   function truncate(str, n) {
     return str.length > n
@@ -24,18 +24,6 @@ function Header() {
     });
   }, [connector]);
 
-  useEffect(() => {
-    var prevScrollpos = window.pageYOffset;
-    window.onscroll = function() {
-    var currentScrollPos = window.pageYOffset;
-      if (prevScrollpos > currentScrollPos) {
-        navRef.current.style.top = "0";
-      } else {
-        navRef.current.style.top = "-100px";
-      }
-      prevScrollpos = currentScrollPos;
-    }
-  }, []);
 
   return (
     <Navbar
@@ -43,7 +31,6 @@ function Header() {
       expand="xl"
       className="header"
       sticky='top'
-      ref={navRef}
     >
       <Container fluid>
         <Navbar.Brand href="/">2loops marketplace</Navbar.Brand>
@@ -83,6 +70,11 @@ function Header() {
                   </div>
                 </div>
                 <span className="mx-3">|</span>
+                <img
+                  className="img-profile me-3"
+                  src={`https://www.gravatar.com/avatar/${md5(account)}/?d=identicon`}
+                  alt=""
+                />
                 <span>{truncate(account, 6)}</span>
                 <span className="mx-3">|</span>
                 <p>

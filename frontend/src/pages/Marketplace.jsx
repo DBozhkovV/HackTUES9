@@ -32,7 +32,7 @@ function Marketplace() {
 
   useEffect(() => {
       if (!loading) {
-        console.log(data);
+        console.log(error);
       setOffers(data.offers);
     }
   }, [data, loading, account]);
