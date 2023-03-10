@@ -11,5 +11,7 @@ namespace BackEnd.Services
 
             await Clients.All.SendAsync("ReceiveMessage", senderId, receiverId, message);
         }
+        
+
     }
 }
