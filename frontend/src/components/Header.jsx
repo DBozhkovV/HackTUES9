@@ -8,11 +8,14 @@ import Deposit from './Deposit';
 import Withdraw from './Withdraw';
 import { useWeb3Context } from '../hooks/useWeb3Context';
 import md5 from 'md5';
+import Logout from './Logout';
 
 function Header() {
   const { connector, provider, account, isActive, balance, contract, setBalanceUpdate } = useWeb3Context();
   const navigate = useNavigate();
   const isUser = sessionStorage.getItem('isUser');
+  const [showLogout, setShowLogout] = useState(false);
+
   function truncate(str, n) {
     return str.length > n
       ? str.substr(0, n - 1) + '...' + str.substr(str.length - 4, str.length - 1)
@@ -53,7 +56,14 @@ function Header() {
               </Button>
             </Nav>
             
-            {isUser ? null : (
+            {isUser ? (
+              <Navbar.Collapse className="justify-content-end">
+                <Button className="mx-2" variant="primary" onClick={() => setShowLogout(true)}>
+                  Logout
+                </Button>
+                <Logout show={showLogout} onHide={() => setShowLogout(false)} />
+              </Navbar.Collapse>
+            ) : (
               <Navbar.Collapse className="justify-content-end">
                 <Button className="mx-2" variant="outline-primary" onClick={() => navigate("/login ")}>
                   Login

@@ -16,7 +16,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     const getFriends = async () => {
-        await axios.get(`https://localhost:7160/friendship/friendRequests`, { withCredentials: true })
+        await axios.get(`https://localhost:7160/friendship/friends`, { withCredentials: true })
             .then(response => {
                 setFriends(response.data);
             })

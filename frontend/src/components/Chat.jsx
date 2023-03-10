@@ -5,7 +5,7 @@ const Chat = () => {
 
     const joinChat = async () => {
         const connection = new HubConnectionBuilder()
-        .withUrl("https://127.0.0.1:3000/chat")
+        .withUrl("https://localhost:7160/chatHub")
         .configureLogging(LogLevel.Information)
         .build();
 
@@ -14,11 +14,15 @@ const Chat = () => {
         });
 
         await connection.start();
-
-        // Call the SendMessage method to simulate a chat message
-        connection.invoke("SendMessage", "sender1", "receiver1", "Hello, world!")
+        const senderId = "005393b4-b0b2-4aa6-a631-11a5f37e2c78"; // replace with the ID of the user sending the message
+        const receiverId = "9631eb8e-da6f-48c2-9018-736676a4b677"; // replace with the ID of the user you want to send a message to
+        const message = "Hello, world!";
+        connection.invoke("SendMessage", senderId, receiverId, message)
+            .then(() => {
+                console.log("Message sent.");
+            })
             .catch((error) => {
-                console.error(error);
+                console.error("Error sending message:", error);
             });
     };
 

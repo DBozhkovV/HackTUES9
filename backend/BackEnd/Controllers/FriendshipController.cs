@@ -23,7 +23,7 @@ namespace BackEnd.Controllers
         [Route("send")]
         public async Task<IActionResult> SendFriendRequest(SendFriendRequest sendFriendRequest)
         {
-            if (HttpContext.Session.GetString("userId") == null) 
+            if (HttpContext.Session.GetString("userId") == null)
             {
                 return Unauthorized();
             }
@@ -42,6 +42,19 @@ namespace BackEnd.Controllers
                 return BadRequest("Invalid request.");
             }
 
+            var existingFriendRequest = _context.Friendships
+                .Where(friendship => (friendship.RequesterId == requesterId && friendship.ReceiverId == receiverUser.Id)
+                || (friendship.ReceiverId == requesterId && friendship.RequesterId == receiverUser.Id));
+            if (existingFriendRequest.Any()) 
+            {
+                return BadRequest("Existing friend request.");
+            }
+
+            if (requesterId == receiverUser.Id) 
+            {
+                return BadRequest("Can't send request to yourself.");
+            }
+            
             var newFriendRequest = new Friendship()
             {
                 RequesterId = requesterId,
@@ -142,6 +155,31 @@ namespace BackEnd.Controllers
                 return BadRequest(exception.Message);
             }    
         }
-        
+
+        [HttpGet("friends")]
+        public IActionResult GetFriends() 
+        {
+            if (HttpContext.Session.GetString("userId") == null)
+            {
+                return Unauthorized();
+            }
+
+            Guid userId = Guid.Parse(HttpContext.Session.GetString("userId"));
+
+            try
+            {
+                List<FriendRequest> friendRequests = _userService.GetFriends(userId);
+                if (!friendRequests.Any())
+                {
+                    return BadRequest("There are no friend requests.");
+                }
+                return Ok(friendRequests);
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        }
+
     }
 }

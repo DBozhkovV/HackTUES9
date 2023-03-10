@@ -5,3 +5,17 @@
     justify-content: center;
     align-content: center;
 }
+
+.post-header {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.post-frame {
+    display: flex;
+    flex-grow: inherit;
+}

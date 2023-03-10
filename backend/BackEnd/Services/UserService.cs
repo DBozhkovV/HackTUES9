@@ -33,6 +33,30 @@ namespace BackEnd.Services
             return friendRequests;
         }
 
+        public List<FriendRequest> GetFriends(Guid userId) 
+        {
+            List<FriendRequest> friends = new List<FriendRequest>();
+            _context.Friendships.ToList().ForEach(friend => {
+                if (friend.ReceiverId == userId || friend.RequesterId == userId)
+                {
+                    if (friend.status == RequestStatus.Accepted)
+                    {
+                        FriendRequest request = new FriendRequest();
+                        if (friend.RequesterId == userId)
+                        {
+                            request.FriendshipId = friend.Id;
+                            request.Username = GetUsernameById(friend.ReceiverId);
+                        } else {
+                            request.FriendshipId = friend.Id;
+                            request.Username = GetUsernameById(friend.RequesterId);
+                        }
+                        friends.Add(request);
+                    }
+                }
+            });
+            return friends;
+        }
+
         private string GetUsernameById(Guid userId) 
         {
             var user = _context.Users.FirstOrDefault(x => x.Id == userId);
