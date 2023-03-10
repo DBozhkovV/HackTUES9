@@ -3,8 +3,8 @@ import { Modal, Row, Col, Button } from 'react-bootstrap';
 import CreatePostForm from '../components/CreatePostForm';
 import Post from '../components/Post';
 import comments from '../data/comments.json';
-
 import postsData from '../data/posts.json';
+import '../styles/_posts.scss';
 
 function Posts() {
   const [showModal, setShowModal] = useState(false);
@@ -39,7 +39,7 @@ function Posts() {
         </Modal.Footer>
       </Modal>
       {/* render list of posts here */}
-      <div className=''>
+      <div className='posts-container'>
         {posts.map((post) => (
             <Post key={post.id} post={post} />
         ))}

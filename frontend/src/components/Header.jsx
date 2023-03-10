@@ -2,17 +2,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button, Navbar, Nav, Offcanvas, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { ethers } from 'ethers';
-
+import { useNavigate } from 'react-router-dom';
 import SelectWalletModal from './ConnectModal';
 import Deposit from './Deposit';
 import Withdraw from './Withdraw';
-
 import { useWeb3Context } from '../hooks/useWeb3Context';
-
 
 function Header() {
   const { connector, provider, account, isActive, balance, contract, setBalanceUpdate } = useWeb3Context();
   const navRef = useRef(null);
+  const navigate = useNavigate();
   function truncate(str, n) {
     return str.length > n
       ? str.substr(0, n - 1) + '...' + str.substr(str.length - 4, str.length - 1)
@@ -55,16 +54,24 @@ function Header() {
           </Offcanvas.Header>
           <Offcanvas.Body className="align-items-center justify-content-between">
             <Nav className="d-flex align-items-center">
-              <Link className="mx-2" to="posts">
+              <Button variant="outline-primary" className="mx-2" onClick={() => navigate("/posts")}>
                 Posts
-              </Link>
-              <Link className="mx-2" to="chat">
+              </Button>
+              <Button variant="outline-primary" className="mx-2" onClick={() => navigate("/")}>
                 Chat
-              </Link>
-              <Link className="mx-2" to="marketplace">
+              </Button>
+              <Button className="mx-2" variant="outline-primary" onClick={() => navigate("/marketplace")}>
                 Marketplace
-              </Link>
+              </Button>
             </Nav>
+            <Navbar.Collapse className="justify-content-end">
+              <Button className="mx-2" variant="outline-primary" onClick={() => navigate("/login ")}>
+                Login
+              </Button>
+              <Button className="mx-2" variant="outline-primary" onClick={() => navigate("/register")}>
+                Register
+              </Button>
+            </Navbar.Collapse>
             {isActive ? (
               <div className="d-flex align-items-center justify-content-end">
                 <div className="d-flex">

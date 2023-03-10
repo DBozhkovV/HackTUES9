@@ -8,7 +8,8 @@ import S2L_ABI from './constants/abis/S2LToken.json';
 import { getContract } from './utils/utils';
 import useBalance from './hooks/useBalance';
 import { Web3ContextProvider } from './hooks/useWeb3Context';
-
+import Register from './components/Register';
+import Login from './components/Login';
 import Home from './pages/Home';
 import Header  from './components/Header';
 import Marketplace from './pages/Marketplace';
@@ -55,6 +56,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/marketplace" element={<Marketplace />} />
               <Route path="/posts" element={<Posts />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
             </Routes>
           </div>
         </div>

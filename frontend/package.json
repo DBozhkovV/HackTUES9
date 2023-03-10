@@ -29,7 +29,8 @@
     "react-router-dom": "^6.8.2",
     "rollup-plugin-polyfill-node": "^0.12.0",
     "sass": "^1.58.3",
-    "web3.storage": "^4.5.4"
+    "web3.storage": "^4.5.4",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@coinbase/wallet-sdk": "^3.6.4",
