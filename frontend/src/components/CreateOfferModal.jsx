@@ -90,19 +90,16 @@ function CreateOfferModal() {
                 encodeURI(`${W3LINK_URL}/${imageCid}/${itemImage.name}`),
                 encodeURI(`${W3LINK_URL}/${metadataCid}/${itemName.trim()}_metadata.json`),
             );
-            console.log("tddasdasasdasd", data);
             let txParams = {
               data: data,
               to: MARKETPLACE_ADDRESS,
-              from: "0xE041608922d06a4F26C0d4c27d8bCD01daf1f792",
+              from: account,
               signatureType: "PERSONAL_SIGN",
               gasLimit: 5000000,
             };
-            console.log("txParams", txParams);
-            console.log(provider)
             const tx = await provider.send("eth_sendTransaction", [txParams]);
-                //call bakcend to save credentials
-                handleClose();
+            //call bakcend to save credentials
+            handleClose();
         }
     }
 
