@@ -11,6 +11,7 @@ namespace BackEnd.Data
         public DbSet<Coments> Coments { get; set; }
         public DbSet<Friendship> Friendships { get; set; }
         public DbSet<ChatMessage> Messages { get; set; }
+        public DbSet<Econt> Econt { get; set; }
         public DataContext(DbContextOptions options) : base(options)
         {
         }
