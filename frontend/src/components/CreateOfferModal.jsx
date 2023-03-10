@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button, Modal, Form, Row, Col } from 'react-bootstrap';
-import { onAttemptToApprove, resizeImage } from "../utils/utils";
+import { resizeImage } from "../utils/utils";
 import { W3LINK_URL } from '../constants/constants';
 import { parseEther } from "ethers/lib/utils";
 import { useWeb3Context } from "../hooks/useWeb3Context";
@@ -75,13 +75,16 @@ function CreateOfferModal() {
             }
             const metadataCid = await uploadImmutableData([new File([JSON.stringify(metadata)], `${itemName.trim()}_metadata.json`)]);
             const priceInWei = parseEther(price.toString());
-            await contract.createOffer(
+            const tx = await contract.createOffer(
                 priceInWei,
                 itemName,
                 encodeURI(`${W3LINK_URL}/${imageCid}/${itemImage.name}`),
                 encodeURI(`${W3LINK_URL}/${metadataCid}/${itemName.trim()}_metadata.json`),
             );
-            handleClose();
+            tx.wait().then(() => {
+                //call bakcend to save credentials
+                handleClose();
+            });
         }
     }
 
@@ -98,13 +101,11 @@ function CreateOfferModal() {
             noValidate
             validated={validated}
           >
-            <Form.Group controlId="price">
-              <Form.Label>Item name</Form.Label>
+            <Form.Group controlId="price" className='me-3'>
                 <Form.Control input="text" value={itemName} placeholder="Item name" onChange={(e) => setItemName(e.target.value) } />
             </Form.Group>
-            <Row>            
+            <Row className='my-3'>            
                 <Form.Group as={Col} controlId="ticketImage">
-                    <Form.Label>Item image</Form.Label>
                     <Form.Control
                         type="file" 
                         accept=".jpg, .png, .jpeg"
@@ -115,8 +116,7 @@ function CreateOfferModal() {
                         Please provide an image.
                     </Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group as={Col} controlId="price" className="mb-3">
-                <Form.Label>Price</Form.Label>
+                <Form.Group as={Col} controlId="price">
                     <Form.Control 
                         type="number"
                         step="0.001"
@@ -136,30 +136,26 @@ function CreateOfferModal() {
                     Delivery is only supported in Bulgaria
                 </Form.Text>
                 <Form.Group controlId="senderName">
-                    <Form.Label>Sender name</Form.Label>
                     <Form.Control type="text" required placeholder="Sender name" value={senderName} onChange={(e) => setSenderName(e.target.value ) }/>
                     <Form.Control.Feedback type="invalid">
                         Please provide a sender name
                     </Form.Control.Feedback>
                 </Form.Group>
-                    <Form.Group controlId="senderPhone">
-                    <Form.Label>Sender phone</Form.Label>
+                    <Form.Group controlId="senderPhone" className='my-3'>
                             <Form.Control type="text" required placeholder="Sender phone number" value={senderPhone} onChange={(e) => setSenderPhone(e.target.value ) } />
                         <Form.Control.Feedback type="invalid">
                             Please provide a sender phone number
                         </Form.Control.Feedback>
                     </Form.Group>
                     
-                <Row>        
+                <Row className='my-3'>        
                     <Form.Group as={Col}  controlId="senderCity">
-                        <Form.Label>City</Form.Label>
                         <Form.Control type="text" required placeholder="Sender city" value={senderCity} onChange={(e) => setSenderCity(e.target.value ) }/>
                         <Form.Control.Feedback type="invalid">
                             Please provide a city
                         </Form.Control.Feedback>
                     </Form.Group>    
                     <Form.Group as={Col} controlId="senderPostalCode">
-                        <Form.Label>Postal Code</Form.Label>
                         <Form.Control type="text" required placeholder="Sender postal code" value={senderPostalCode} onChange={(e) => setSenderPostalCode(e.target.value ) }/>
                         <Form.Control.Feedback type="invalid">
                             Please provide a postal code
@@ -167,15 +163,13 @@ function CreateOfferModal() {
                     </Form.Group>  
                 </Row>
                 <Row>
-                    <Form.Group controlId="senderStreep" as={Col}>
-                        <Form.Label>Street name</Form.Label>
+                    <Form.Group controlId="senderStreet" as={Col}>
                         <Form.Control type="text" required placeholder="Sender street name" value={senderStreet} onChange={(e) => setSenderStreet(e.target.value ) }/>
                         <Form.Control.Feedback type="invalid">
                             Please provide a street name
                         </Form.Control.Feedback>
                     </Form.Group> 
                     <Form.Group controlId="senderStreetNumber" as={Col}>
-                        <Form.Label>Sender street number</Form.Label>
                         <Form.Control type="text" required placeholder="Sender street number" value={senderStreetNumber} onChange={(e) => setSenderStreetNumber(e.target.value ) }/>
                         <Form.Control.Feedback type="invalid">
                             Please provide a street number
