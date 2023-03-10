@@ -3,6 +3,7 @@ using System;
 using BackEnd.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BackEnd.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230310115328_Econt")]
+    partial class Econt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,8 +76,9 @@ namespace BackEnd.Migrations
 
             modelBuilder.Entity("BackEnd.Data.Models.Econt", b =>
                 {
-                    b.Property<string>("shipmentId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("shipmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<string>("cityName")
                         .IsRequired()
@@ -91,6 +95,12 @@ namespace BackEnd.Migrations
                     b.Property<string>("postCode")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("requestCourierTimeFrom")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("requestCourierTimeTo")
+                        .HasColumnType("integer");
 
                     b.Property<string>("shipmentDescription")
                         .IsRequired()

@@ -2485,19 +2485,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\hrist\\.nuget\\packages\\": {}
+    "C:\\Users\\Home\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\HackTUES9\\backend\\BackEnd\\BackEnd.csproj",
+      "projectUniqueName": "C:\\Users\\Home\\Documents\\GitHub\\HackTUES9\\backend\\BackEnd\\BackEnd.csproj",
       "projectName": "BackEnd",
-      "projectPath": "C:\\HackTUES9\\backend\\BackEnd\\BackEnd.csproj",
-      "packagesPath": "C:\\Users\\hrist\\.nuget\\packages\\",
-      "outputPath": "C:\\HackTUES9\\backend\\BackEnd\\obj\\",
+      "projectPath": "C:\\Users\\Home\\Documents\\GitHub\\HackTUES9\\backend\\BackEnd\\BackEnd.csproj",
+      "packagesPath": "C:\\Users\\Home\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Home\\Documents\\GitHub\\HackTUES9\\backend\\BackEnd\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\hrist\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Home\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2577,7 +2577,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }
