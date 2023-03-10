@@ -13,9 +13,11 @@ namespace BackEnd.Controllers
     public class ChatController : ControllerBase
     {
         private readonly DataContext _context;
-        public ChatController(DataContext context)
+        private readonly ChatHub _chatHub;
+        public ChatController(DataContext context, ChatHub chatHub)
         {
             _context = context;
+            _chatHub = chatHub;
         }
 
         [HttpPost]
@@ -33,27 +35,6 @@ namespace BackEnd.Controllers
             }
             var hubContext = this.HttpContext.RequestServices.GetRequiredService<IHubContext<ChatHub>>();
 
-
-            // Check if chat hub already exists
-            // Find existing chat hub or create a new one
-            var chatHubId = $"{senderId}_{receiverId}";
-            if (senderId.CompareTo(receiverId) > 0)
-            {
-                chatHubId = $"{receiverId}_{senderId}";
-            }
-
-            var chatHub = hubContext.Clients.Group(chatHubId);
-
-            if (chatHub == null)
-            {
-                await hubContext.Groups.AddToGroupAsync(senderId.ToString(), chatHubId);
-                await hubContext.Groups.AddToGroupAsync(receiverId.ToString(), chatHubId);
-            }
-            
-            // Send message to chat participants
-            await chatHub.SendAsync("ReceiveMessage", senderId, receiverId, message);
-
-
             var chatMessage = new ChatMessage
             {
                 SenderId = senderId,
@@ -65,8 +46,6 @@ namespace BackEnd.Controllers
             _context.Messages.Add(chatMessage);
             await _context.SaveChangesAsync();
 
-            // Broadcast message to chat group
-            await hubContext.Clients.Group(chatHubId).SendAsync("ReceiveMessage", senderId, receiverId, message);
 
             return Ok(chatMessage);
         }
