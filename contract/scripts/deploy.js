@@ -17,7 +17,7 @@ async function main() {
   console.log("Tokens contract deployed to address: ", s2lToken.address);
 
   const Marketplace = await hre.ethers.getContractFactory("Marketplace");
-  const marketplace = await Marketplace.deploy(s2lToken.address);
+  const marketplace = await Marketplace.deploy(s2lToken.address, "0xE041608922d06a4F26C0d4c27d8bCD01daf1f792");
   await marketplace.deployed();
   await s2lToken.setMarketplaceContractAddress(marketplace.address);
   console.log("Marketplace contract deployed to address: ", marketplace.address);

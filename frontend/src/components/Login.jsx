@@ -14,8 +14,6 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("email:", email);
-    console.log("password:", password);
     await axios.post("https://localhost:7160/auth/login", {
         email,
         password
@@ -50,14 +48,16 @@ const Login = () => {
             onChange={(event) => setPassword(event.target.value)}
           />
         </Form.Group>
-        <div className="wallet-button">
-          <SelectWalletModal />
-        </div>
         {account ? (
           <Button variant="primary" type="submit" onClick={(event) => handleSubmit(event)}>
             Login
           </Button>
-          ) : null }
+          ) : (
+          <div className="wallet-button">
+            <SelectWalletModal />
+          </div>
+          )
+        }
       </Form>
     </div>
   );

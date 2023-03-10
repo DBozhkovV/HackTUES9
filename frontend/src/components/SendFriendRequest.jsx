@@ -27,7 +27,7 @@ const SendFriendRequest = (props) => {
 
     return (
         <Modal
-            {...props}
+            show={props.show}
             size="lg"
             centered
         >

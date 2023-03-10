@@ -1,0 +1,29 @@
+type Offer @entity {
+    id: ID!
+    seller: User!
+    buyer: User
+    price: BigInt!
+    itemName: String!
+    itemImage: String!
+    isSold: Boolean!
+    isCancelled: Boolean!
+    nft: OfferNFT!
+    createdAt: BigInt!
+    acceptedAt: BigInt
+    cancelledAt: BigInt
+}
+
+type OfferNFT @entity {
+    id: ID!
+    tokenId: BigInt!
+    tokenURI: String!
+    owner: User!
+}
+
+type User @entity {
+    id: ID!
+    address: Bytes! # address
+    balance: BigInt!
+    offers: [Offer!]! @derivedFrom(field: "seller")
+    purchases: [Offer!]! @derivedFrom(field: "buyer")
+}

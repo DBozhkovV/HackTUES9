@@ -44,12 +44,12 @@ const Sidebar = () => {
             <NavLink to="/requests" className="activeClicked">
               <CDBSidebarMenuItem icon="columns">See your friend requests</CDBSidebarMenuItem>
             </NavLink>
+            <hr/>
             {friends.map((friend) => (
               <NavLink to="/" className="activeClicked">
-                  <CDBSidebarMenuItem icon="columns">friend.username</CDBSidebarMenuItem>
+                  <CDBSidebarMenuItem icon="columns">{friend.username}</CDBSidebarMenuItem>
               </NavLink>
             ))}
-            
           </CDBSidebarMenu>
         </CDBSidebarContent>
       </CDBSidebar>

@@ -91,8 +91,8 @@ function App() {
       <BrowserRouter>
         <div className="wrapper">
           <Header/>
-          <Sidebar/>
-          <div className="main">
+          <div className="main d-flex">
+            <Sidebar/>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/marketplace" element={<Marketplace />} />
