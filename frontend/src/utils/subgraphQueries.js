@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const OFFERS_QUERY = gql`
     query getOffers($first: Int, $skip: Int, $user: String!) {
-        offers(first: $first, skip: $skip, where: { seller_ : { id_not: $user}}) {
+        offers(first: $first, skip: $skip, where: { seller_ : { id_not: $user}, isSold: false, isCancelled: false }) {
             id
             seller {
                 id,
@@ -22,7 +22,9 @@ export const USER_OFFERS_QUERY = gql`
     query userOffers($user: String!) {
         offers(
             where : { 
-                seller_: { id: $user}
+                seller_: { id: $user},
+                isSold: false,
+                isCancelled: false
             } 
         ) {
             id

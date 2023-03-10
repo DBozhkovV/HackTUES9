@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Image, Form, Row, Col } from 'react-bootstrap';
 import { formatEther } from 'ethers/lib/utils';
-import { useQuery } from '@apollo/client';
+import { ethers } from 'ethers';
+import { MARKETPLACE_ADDRESS } from '../constants/constants';
+import MARKETPLACE_ABI from '../constants/abis/Marketplace.json';
 import { onAttemptToApprove } from '../utils/utils';
 import { useWeb3Context } from '../hooks/useWeb3Context';
 import { Modal } from 'react-bootstrap';
@@ -16,8 +18,28 @@ function Offer({ offer }) {
   const [senderStreet, setSenderStreet] = useState("");
   const [senderStreetNumber, setSenderStreetNumber] = useState("");
   const [validated, setValidated] = useState(false);
-  const { account, contract, tokenContract, setBalanceUpdate } = useWeb3Context();
+  const { account, contract, tokenContract, setBalanceUpdate, biconomy } = useWeb3Context();
   async function cancelOffer() {
+      const provider = await biconomy.provider;
+      console.log("provider", provider);
+      const contractInstance = new ethers.Contract(
+        MARKETPLACE_ADDRESS,
+        MARKETPLACE_ABI.abi,
+        biconomy.ethersProvider
+      );
+      let { data } = await contractInstance.populateTransaction.cancelOffer(
+          offer.id
+      );
+      let txParams = {
+        data: data,
+        to: MARKETPLACE_ADDRESS,
+        from: account,
+        signatureType: "PERSONAL_SIGN",
+        gasLimit: 5000000,
+      };
+      const tx = await provider.send("eth_sendTransaction", [txParams]);
+      //call bakcend to save credentials
+      handleClose();    
   }
 
 
