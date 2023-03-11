@@ -48,6 +48,7 @@ const Login = () => {
             onChange={(event) => setPassword(event.target.value)}
           />
         </Form.Group>
+        <hr />
         {account ? (
           <Button variant="primary" type="submit" onClick={(event) => handleSubmit(event)}>
             Login

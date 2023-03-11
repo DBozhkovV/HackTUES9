@@ -15,6 +15,7 @@ const Sidebar = () => {
   const [showFriendRequest, setShowFriendRequest] = useState(false);
 
   useEffect(() => {
+    console.log("useEffect");
     const getFriends = async () => {
         await axios.get(`https://localhost:7160/friendship/friends`, { withCredentials: true })
             .then(response => {
@@ -25,7 +26,7 @@ const Sidebar = () => {
             })
     }
     getFriends();
-}, []);
+  }, []);
 
   return (
     <div style={{ position: "sticky", top: "50px", height: "94.2vh"}}>
@@ -45,8 +46,8 @@ const Sidebar = () => {
               <CDBSidebarMenuItem icon="columns">See your friend requests</CDBSidebarMenuItem>
             </NavLink>
             <hr/>
-            {friends.map((friend) => (
-              <NavLink to="/" className="activeClicked">
+            {friends.map((friend, index) => (
+              <NavLink to="/" key={index} className="activeClicked">
                   <CDBSidebarMenuItem icon="columns">{friend.username}</CDBSidebarMenuItem>
               </NavLink>
             ))}

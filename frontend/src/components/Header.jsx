@@ -31,10 +31,11 @@ function Header() {
 
   return (
     <Navbar
-      bg="light"
+      bg="dark"
       expand="xl"
       className="header"
       sticky='top'
+      variant="dark"
     >
       <Container fluid>
         <Navbar.Brand href="/">2loops marketplace</Navbar.Brand>
