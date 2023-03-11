@@ -2,13 +2,19 @@ import React, { useEffect, useState } from "react";
 import { HubConnectionBuilder, LogLevel } from "@microsoft/signalr";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useRef } from "react";
 
 const Chat = () => {
     const [previousMessages, setPreviousMessages] = useState([]);
     const [message, setMessage] = useState("");
-
+    
+    const senderId = sessionStorage.getItem("isUser");
     const params = useParams();
     const receiverId = params.id;
+
+    const [ chat, setChat ] = useState([]);
+    const latestChat = useRef(null);
+    latestChat.current = chat;
 
     useEffect(() => {
         axios.get(`https://localhost:7160/chat/getMessages/${receiverId}`, { withCredentials: true })
@@ -20,32 +26,51 @@ const Chat = () => {
                 console.error(error);
             })
     }, [receiverId]);
-    const joinChat = async () => {
-        const connection = new HubConnectionBuilder()
+
+    const handleMessageChange = (event) => {
+        event.preventDefault(); 
+        setMessage(event.target.value);
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault(); 
+            const connection = new HubConnectionBuilder()
             .withUrl("https://localhost:7160/chatHub")
             .configureLogging(LogLevel.Information)
             .build();
-
-        // connection.on("ReceiveMessage", (senderId, receiverId, message) => {
-        //     console.log(`Message received: Sender ID = ${senderId}, Receiver ID = ${receiverId}, Message = ${message}`);
-        // });
-
+        
         await connection.start();
-        const senderId = "9ef82813-bd9c-4165-9915-5a72a00ce71b"; // replace with the ID of the user sending the message
-        const receiverId = "8b01a376-796a-4f2d-8d6f-994307d43db0"; // replace with the ID of the user you want to send a message to
-        const message = "Hello, world!";
-        connection.invoke("SendMessage", senderId, receiverId, message)
-            .then(() => {
-                console.log(message);
-            })
-            .catch((error) => {
-                console.error("Error sending message:", error);
-            });
+    
+        if (message.trim() !== "") {
+            await connection.send("SendMessage", senderId, receiverId, message)
+                .then(() => {
+                    const updatedChat = [...latestChat.current];
+                    updatedChat.push(message);
+                    setChat(updatedChat);
+                })
+                .catch((error) => {
+                    console.error("Error sending message:", error);
+                });
+          setMessage("");
+        }
     };
-
+    
     return (
         <div>
-            <button onClick={joinChat}>Join Chat</button>
+            <ul>
+            {previousMessages.map((message) => (
+                <li key={message.id}>{message.message}</li>
+            ))}
+            </ul>
+            <div>
+                {chat.map((message) => (
+                    <div key={message}>{message}</div>
+                ))}
+            </div>
+            <form >
+                <input type="text" value={message} onChange={(e) => handleMessageChange(e)} />
+                <button type="submit" onClick={(e) => handleSubmit(e)}>Send</button>
+            </form>
         </div>
     );
 

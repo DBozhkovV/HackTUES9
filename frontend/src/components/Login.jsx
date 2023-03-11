@@ -20,8 +20,8 @@ const Login = () => {
     },{
         withCredentials: true
     })
-    .then(() => {
-        sessionStorage.setItem("isUser", true);
+    .then((response) => {
+        sessionStorage.setItem("isUser", response.data);
         navigate("/");
     })
     .catch((error) => {
@@ -31,26 +31,27 @@ const Login = () => {
 
   return (
     <div className="login-frame">
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} className="form-frame">
         <Form.Group>
-          <Form.Label>Email address</Form.Label>
+          <Form.Label>Email address:</Form.Label>
           <Form.Control
             type="email"
             placeholder="Enter email"
             onChange={(event) => setEmail(event.target.value)}
           />
         </Form.Group>
+        <br />
         <Form.Group>
-          <Form.Label>Password</Form.Label>
+          <Form.Label>Password:</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Password"
+            placeholder="Enter password"
             onChange={(event) => setPassword(event.target.value)}
           />
         </Form.Group>
         <hr />
         {account ? (
-          <Button variant="primary" type="submit" onClick={(event) => handleSubmit(event)}>
+          <Button className="login-button" variant="primary" type="submit" onClick={(event) => handleSubmit(event)}>
             Login
           </Button>
           ) : (

@@ -31,11 +31,10 @@ function Header() {
 
   return (
     <Navbar
-      bg="dark"
+      bg="light"
       expand="xl"
       className="header"
       sticky='top'
-      variant="dark"
     >
       <Container fluid>
         <Navbar.Brand href="/">2loops marketplace</Navbar.Brand>
@@ -48,9 +47,6 @@ function Header() {
             <Nav className="d-flex align-items-center">
               <Button variant="outline-primary" className="mx-2" onClick={() => navigate("/posts")}>
                 Posts
-              </Button>
-              <Button variant="outline-primary" className="mx-2" onClick={() => navigate("/chat")}>
-                Chat
               </Button>
               <Button className="mx-2" variant="outline-primary" onClick={() => navigate("/marketplace")}>
                 Marketplace

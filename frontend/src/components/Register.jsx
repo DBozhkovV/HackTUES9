@@ -31,31 +31,34 @@ const Register = () => {
 
   return (
     <div className="register-frame">
-      <Form onSubmit={handleSubmit}>
+      <Form className="form-frame" onSubmit={handleSubmit}>
         <Form.Group>
-          <Form.Label>Username</Form.Label>
+          <Form.Label>Username:</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter username"
             onChange={(event) => setUsername(event.target.value)}
           />
         </Form.Group>
+        <br/>
         <Form.Group>
-          <Form.Label>Email address</Form.Label>
+          <Form.Label>Email address:</Form.Label>
           <Form.Control
             type="email"
             placeholder="Enter email"
             onChange={(event) => setEmail(event.target.value)}
           />
         </Form.Group>
+        <br/>
         <Form.Group>
-          <Form.Label>Password</Form.Label>
+          <Form.Label>Password:</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Password"
+            placeholder="Enter password"
             onChange={(event) => setPassword(event.target.value)}
           />
         </Form.Group>
+        <hr />
         {account ? (
           <Button variant="primary" type="submit" onClick={(event) => handleSubmit(event)}>
             Register

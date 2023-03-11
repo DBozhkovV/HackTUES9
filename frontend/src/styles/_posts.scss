@@ -18,4 +18,8 @@
 .post-frame {
     display: flex;
     flex-grow: inherit;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
 }
