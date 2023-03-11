@@ -12,6 +12,7 @@ namespace BackEnd.Data
         public DbSet<Friendship> Friendships { get; set; }
         public DbSet<ChatMessage> Messages { get; set; }
         public DbSet<Econt> Econt { get; set; }
+        public DbSet<IdSimolation> IdSimolations { get; set; }
         public DataContext(DbContextOptions options) : base(options)
         {
         }

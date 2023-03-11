@@ -9,9 +9,9 @@ const Chat = () => {
         .configureLogging(LogLevel.Information)
         .build();
 
-        connection.on("ReceiveMessage", (senderId, receiverId, message) => {
-            console.log(`Message received: Sender ID = ${senderId}, Receiver ID = ${receiverId}, Message = ${message}`);
-        });
+        // connection.on("ReceiveMessage", (senderId, receiverId, message) => {
+        //     console.log(`Message received: Sender ID = ${senderId}, Receiver ID = ${receiverId}, Message = ${message}`);
+        // });
 
         await connection.start();
         const senderId = "005393b4-b0b2-4aa6-a631-11a5f37e2c78"; // replace with the ID of the user sending the message

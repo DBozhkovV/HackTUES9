@@ -2,6 +2,7 @@
 using BackEnd.Data.Models;
 using BackEnd.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Crypto.Generators;
 
 namespace BackEnd.Controllers
 {
@@ -32,17 +33,24 @@ namespace BackEnd.Controllers
             {
                 return BadRequest("Username exists!");
             }
-
-            User user = new User()
+            var personalId = _context.IdSimolations.Find(registerDTO);
+            if (personalId != null)
             {
-                WalletId = BCrypt.Net.BCrypt.HashPassword(registerDTO.WalletId),
-                Email = BCrypt.Net.BCrypt.HashPassword(registerDTO.Email),
-                Username = registerDTO.Username,
-                Password = BCrypt.Net.BCrypt.HashPassword(registerDTO.Password)
-            };
+                User user = new User()
+                {
+                    WalletId = BCrypt.Net.BCrypt.HashPassword(registerDTO.WalletId),
+                    Email = BCrypt.Net.BCrypt.HashPassword(registerDTO.Email),
+                    Username = registerDTO.Username,
+                    Password = BCrypt.Net.BCrypt.HashPassword(registerDTO.Password)
+                };
 
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
+                await _context.Users.AddAsync(user);
+                await _context.SaveChangesAsync();
+            }
+            else 
+            { 
+                return BadRequest("This is not valid Id,pls enter valid Id");
+            }
             return Ok();
         }
 
