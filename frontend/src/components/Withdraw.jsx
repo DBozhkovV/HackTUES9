@@ -1,13 +1,15 @@
 import { ethers } from 'ethers';
 import { Button, Modal, Form } from 'react-bootstrap';
 import React, { useState } from 'react';
+import { MARKETPLACE_ADDRESS } from '../constants/constants';
+import MARKETPLACE_ABI from '../constants/abis/Marketplace.json';
 import { useWeb3Context } from '../hooks/useWeb3Context';
 function Withdraw() {
   const [validated, setValidated] = useState(false);
   const [show, setShow] = useState(false);
   const [withdrawAmount, setWithdrawAmount] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
-  const { contract, balance, setBalanceUpdate } = useWeb3Context();
+  const { contract, balance, setBalanceUpdate, biconomy } = useWeb3Context();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleCloseSuccess = () => {
@@ -35,9 +37,25 @@ function Withdraw() {
       e.preventDefault();
       setValidated(true);
       const amount = ethers.utils.parseEther(withdrawAmount);
-      const tx = await contract.withdraw(amount);
+      const provider = await biconomy.provider;
+      console.log("provider", provider);
+      const contractInstance = new ethers.Contract(
+        MARKETPLACE_ADDRESS,
+        MARKETPLACE_ABI.abi,
+        biconomy.ethersProvider
+      );
+      let { data } = await contractInstance.populateTransaction.withdraw(
+          amount
+      );
+      let txParams = {
+        data: data,
+        to: MARKETPLACE_ADDRESS,
+        from: account,
+        signatureType: "PERSONAL_SIGN",
+        gasLimit: 5000000,
+      };
+      const tx = await provider.send("eth_sendTransaction", [txParams]);    
       handleClose();
-      await tx.wait();
       setValidated(false);
       handleShowSuccess();
       setBalanceUpdate(true);

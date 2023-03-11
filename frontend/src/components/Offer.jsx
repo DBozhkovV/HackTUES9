@@ -37,9 +37,7 @@ function Offer({ offer }) {
         signatureType: "PERSONAL_SIGN",
         gasLimit: 5000000,
       };
-      const tx = await provider.send("eth_sendTransaction", [txParams]);
-      //call bakcend to save credentials
-      handleClose();    
+      const tx = await provider.send("eth_sendTransaction", [txParams]);    
   }
 
 
