@@ -9,10 +9,12 @@ import {
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import SendFriendRequest from './SendFriendRequest';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
   const [friends, setFriends] = useState([]);
   const [showFriendRequest, setShowFriendRequest] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("useEffect");
@@ -30,7 +32,7 @@ const Sidebar = () => {
 
   return (
     <div style={{ position: "sticky", top: "50px", height: "94.2vh"}}>
-      <CDBSidebar textColor="#fff" backgroundColor="#333">
+      <CDBSidebar textColor="#333" backgroundColor="#fff">
         <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
           <a href="/" className="text-decoration-none" style={{ color: 'inherit' }}>
             Friends
@@ -47,7 +49,7 @@ const Sidebar = () => {
             </NavLink>
             <hr/>
             {friends.map((friend, index) => (
-              <NavLink to="/" key={index} className="activeClicked">
+              <NavLink to={`/chat/${friend.friendId}`} key={index} className="activeClicked" >
                   <CDBSidebarMenuItem icon="columns">{friend.username}</CDBSidebarMenuItem>
               </NavLink>
             ))}

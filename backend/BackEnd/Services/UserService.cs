@@ -24,7 +24,8 @@ namespace BackEnd.Services
                         FriendRequest request = new FriendRequest()
                         {
                             FriendshipId = friendRequest.Id,
-                            Username = GetUsernameById(friendRequest.RequesterId)
+                            Username = GetUsernameById(friendRequest.RequesterId),
+                            FriendId = friendRequest.RequesterId
                         };
                         friendRequests.Add(request);
                     }
@@ -46,9 +47,11 @@ namespace BackEnd.Services
                         {
                             request.FriendshipId = friend.Id;
                             request.Username = GetUsernameById(friend.ReceiverId);
+                            request.FriendId = friend.ReceiverId;
                         } else {
                             request.FriendshipId = friend.Id;
                             request.Username = GetUsernameById(friend.RequesterId);
+                            request.FriendId = friend.RequesterId;
                         }
                         friends.Add(request);
                     }
