@@ -8,7 +8,7 @@ import { ethers } from 'ethers';
 import { parseEther } from "ethers/lib/utils";
 import { useWeb3Context } from "../hooks/useWeb3Context";
 import { uploadImmutableData } from '../utils/web3.storageEndpoints';
-
+import axios from 'axios';
 function CreateOfferModal() {
     const [show, setShow] = useState(false);
     const [price, setPrice] = useState(0);
@@ -20,6 +20,7 @@ function CreateOfferModal() {
     const [senderPostalCode, setSenderPostalCode] = useState("");
     const [senderStreet, setSenderStreet] = useState("");
     const [senderStreetNumber, setSenderStreetNumber] = useState("");
+    const [senderWeight, setSenderWeight] = useState();
     const [validated, setValidated] = useState(false);
     const { account, contract, tokenContract, biconomy } = useWeb3Context();
     const handleClose = () => setShow(false);
@@ -99,6 +100,23 @@ function CreateOfferModal() {
             };
             const tx = await provider.send("eth_sendTransaction", [txParams]);
             //call bakcend to save credentials
+            axios
+            .post('https://localhost:7160/CreateTovaritelnica',{
+              street: senderStreet ,
+              weight: senderWeight  ,
+              cityName: senderCity ,
+              postCode: senderPostalCode,
+              userName: senderName,
+              shipmentId: "asdas",
+              countryCode: "BGN",
+              phoneNumber: senderPhone,
+              streetNumber: senderStreetNumber,
+              shipmentDescription: "alabala"
+  
+  
+            })
+            .then(res =>console.log(res) )
+            .catch(err=> console.error(err));
             handleClose();
         }
     }
@@ -188,6 +206,12 @@ function CreateOfferModal() {
                         <Form.Control type="text" required placeholder="Sender street number" value={senderStreetNumber} onChange={(e) => setSenderStreetNumber(e.target.value ) }/>
                         <Form.Control.Feedback type="invalid">
                             Please provide a street number
+                        </Form.Control.Feedback>
+                    </Form.Group> 
+                    <Form.Group controlId="senderStreetNumber" as={Col}>
+                         <Form.Control type="text" required placeholder="Receiver weight" value={senderWeight} onChange={(e) => setSenderWeight(e.target.value ) }/>
+                        <Form.Control.Feedback type="invalid">
+                            Please provide product weight
                         </Form.Control.Feedback>
                     </Form.Group> 
                 </Row>

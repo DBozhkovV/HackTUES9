@@ -36,7 +36,7 @@ namespace BackEnd.Controllers
 
             };
             _context.Econt.Add(tovaritelnica);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return Ok();
         }

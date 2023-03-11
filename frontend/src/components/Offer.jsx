@@ -7,6 +7,7 @@ import MARKETPLACE_ABI from '../constants/abis/Marketplace.json';
 import { onAttemptToApprove } from '../utils/utils';
 import { useWeb3Context } from '../hooks/useWeb3Context';
 import { Modal } from 'react-bootstrap';
+import axios from 'axios';
 function Offer({ offer }) {
   const [showAcceptOfferModal, setShowAcceptOfferModal] = useState(false);
   const showModal = () => setShowAcceptOfferModal(true);
@@ -17,6 +18,7 @@ function Offer({ offer }) {
   const [senderPostalCode, setSenderPostalCode] = useState("");
   const [senderStreet, setSenderStreet] = useState("");
   const [senderStreetNumber, setSenderStreetNumber] = useState("");
+  const [senderWeight, setSenderWeight] = useState();
   const [validated, setValidated] = useState(false);
   const { account, contract, tokenContract, setBalanceUpdate, biconomy } = useWeb3Context();
   async function cancelOffer() {
@@ -52,15 +54,33 @@ function Offer({ offer }) {
           e.preventDefault();
           e.stopPropagation();
           setValidated(true);
-          const priceInWei = ethers.utils.parseEther(offer.price);
+          
           const permit = await onAttemptToApprove(
-            contract.address,
+            contract,
             tokenContract,
             account,
-            priceInWei,
+            offer.price,
             + new Date() + 1000 * 60 * 5
           );
           // call backend then call this
+          axios
+          .post('https://localhost:7160/CreateTovaritelnica',{
+            street: senderStreet ,
+            weight: senderWeight  ,
+            cityName: senderCity ,
+            postCode: senderPostalCode,
+            userName: senderName,
+            shipmentId: "asdas",
+            countryCode: "BGN",
+            phoneNumber: senderPhone,
+            streetNumber: senderStreetNumber,
+            shipmentDescription: "alabala"
+
+
+          })
+          .then(res =>console.log(res) )
+          .catch(err=> console.error(err));
+
           const tx = await contract.buyOffer(
             offer.id,
             permit.deadline,
@@ -150,6 +170,12 @@ function Offer({ offer }) {
                     Please provide a street number
                 </Form.Control.Feedback>
             </Form.Group> 
+            <Form.Group controlId="receiverStreetNumber" as={Col}>
+                <Form.Control type="text" required placeholder="Receiver weight" value={senderWeight} onChange={(e) => setSenderWeight(e.target.value ) }/>
+                <Form.Control.Feedback type="invalid">
+                    Please provide weight
+                </Form.Control.Feedback>
+            </Form.Group>
           </Row>
           <div className="mt-4">
               <Button variant="primary" type="submit">

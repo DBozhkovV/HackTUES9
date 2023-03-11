@@ -365,3 +365,24 @@ C:\Users\Bozhkov\Desktop\HackTUES9\backend\BackEnd\obj\Debug\net6.0\ref\BackEnd.
 C:\HackTUES9\backend\BackEnd\bin\Debug\net6.0\AWSSDK.Core.dll
 C:\HackTUES9\backend\BackEnd\bin\Debug\net6.0\AWSSDK.Extensions.NETCore.Setup.dll
 C:\HackTUES9\backend\BackEnd\bin\Debug\net6.0\AWSSDK.S3.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\NBitcoin.Secp256k1.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\Nethereum.ABI.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\Nethereum.Accounts.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\Nethereum.BlockchainProcessing.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\Nethereum.Contracts.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\Nethereum.Hex.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\Nethereum.JsonRpc.Client.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\Nethereum.JsonRpc.RpcClient.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\Nethereum.KeyStore.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\Nethereum.Merkle.Patricia.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\Nethereum.Model.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\Nethereum.RLP.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\Nethereum.RPC.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\Nethereum.Signer.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\Nethereum.Signer.EIP712.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\Nethereum.Util.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\Nethereum.Web3.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\BouncyCastle.Crypto.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\SendGrid.dll
+C:\Users\Ivaelo Krastev\Documents\GitHub\HackTUES9\backend\BackEnd\bin\Debug\net6.0\StarkbankEcdsa.dll

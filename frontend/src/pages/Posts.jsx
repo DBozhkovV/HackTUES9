@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Modal, Button, Form ,Card, Image} from 'react-bootstrap';
 import Post from '../components/Post';
 import '../styles/_posts.scss';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+
 
 function Posts() {
   const [showModal, setShowModal] = useState(false);
@@ -89,7 +90,14 @@ function Posts() {
       {/* render list of posts here */}
       <div className='posts-container'>
         {posts.map((post) => (
-            <Post key={post.id} post={post} />
+                <Card className="mb-3 custom-card">
+                {<Image src={`https://dwc1e0311jht7.cloudfront.net/${post.key}`} alt="Post Image" style={{ maxWidth: "300px", maxHeight: "300px" }} fluid rounded />}
+                <Card.Body className="custom-card-body">
+                <Card.Text>{post.description}</Card.Text>
+
+                </Card.Body>
+
+              </Card>
         ))}
       </div>
 

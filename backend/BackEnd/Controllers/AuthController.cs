@@ -1,12 +1,7 @@
-﻿using System.Data;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using BackEnd.Data;
+﻿using BackEnd.Data;
 using BackEnd.Data.Models;
 using BackEnd.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using Org.BouncyCastle.Crypto.Generators;
 
 namespace BackEnd.Controllers
@@ -38,7 +33,7 @@ namespace BackEnd.Controllers
             {
                 return BadRequest("Username exists!");
             }
-            var personalId = _context.IdSimolations.Find(registerDTO);
+            var personalId = _context.IdSimolations.Find(registerDTO.personalNo);
             if (personalId != null)
             {
                 User user = new User()
@@ -63,6 +58,10 @@ namespace BackEnd.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginDTO loginDto)
         {
+            if (HttpContext.Session.GetString("userId") != null)
+            {
+                return BadRequest("Have an exist session.");
+            }
 
             var users = _context.Users.ToList();
             User foundUser = null;
@@ -81,34 +80,26 @@ namespace BackEnd.Controllers
                 return BadRequest("User does not exist.");
             }
 
-            var token = GenerateJWTtoken(foundUser);
-
-
             if (BCrypt.Net.BCrypt.Verify(loginDto.password, foundUser.Password))
             {
-                return Ok(token);
+                HttpContext.Session.SetString("userId", foundUser.Id.ToString());
+                return Ok();
             }
             return BadRequest("Wrong username or password.");
         }
 
-        private string GenerateJWTtoken(User user)
+        [HttpPost]
+        [Route("logout")]
+        public async Task<IActionResult> Logout()
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("yr5Yz2QWxxwxe9hkvu4t4RfRHIMwPiEFDv442B6v"));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new[]
+            if (HttpContext.Session.GetString("userId") is null)
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.GivenName, user.Username)
-            };
-
-            var token = new JwtSecurityToken("https://localhost:7160", "https://localhost:7160",
-                claims,
-                expires: DateTime.Now.AddMinutes(20),
-                signingCredentials: credentials);
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-            return jwt;
+                return BadRequest("Don't have exist session.");
+            }
+            Response.Cookies.Delete("ASP");
+            HttpContext.Session.Remove("userId");
+            HttpContext.Session.Clear();
+            return Ok();
         }
 
     }
