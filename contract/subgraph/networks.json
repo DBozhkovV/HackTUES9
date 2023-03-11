@@ -1,8 +1,7 @@
 {
   "goerli": {
     "Marketplace": {
-      "address": "0x2e40A1B292A7f4AEE1F4Ab96f13cBa9061e968A2",
-      "startBlock": 0
+      "address": "0xC8FCC98FADD21E845BfBd21279EFf408FA7D9964"
     }
   }
 }

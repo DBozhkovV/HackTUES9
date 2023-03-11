@@ -9,7 +9,9 @@ import {
   Deposit,
   OwnershipTransferred,
   Transfer,
-  Withdraw
+  Withdraw,
+  CompleteSuccessfullOffer,
+  CompleteFailedOffer,
 } from "../generated/Marketplace/Marketplace";
 import { Offer, OfferNFT, User } from "../generated/schema";
 
@@ -27,23 +29,9 @@ export function handleBuyOffer(event: BuyOffer): void {
       user.balance = BigInt.fromI32(0);
       user.save();
     }
-    else {
-      user.balance = user.balance.minus(offer.price);
-      user.save();
-    }
-    let offerNFT = OfferNFT.load(offer.nft);
-    if (offerNFT !== null) {
-      offerNFT.owner = user.id;
-      offerNFT.save();
-    }
     offer.isSold = true;
     offer.buyer = user.id;
     offer.acceptedAt = event.block.timestamp;
-    let seller = User.load(offer.seller);
-    if (seller !== null) {
-      seller.balance = seller.balance.plus(offer.price);
-      seller.save();
-    }
     offer.save();
   }
 }
@@ -93,6 +81,38 @@ export function handleDeposit(event: Deposit): void {
   else {
     user.balance = user.balance.plus(event.params.amount);
     user.save();
+  }
+}
+
+export function handleCompletedOfferSuccess(event: CompleteSuccessfullOffer): void {
+  let offer = Offer.load(event.params.offerId.toHex());
+  if (offer !== null) {
+    let offerNFT = OfferNFT.load(offer.nft);
+    if (offerNFT !== null) {
+      offerNFT.owner = offer.buyer!;
+      offerNFT.save();
+    }
+    offer.completedAt = event.block.timestamp;
+    let seller = User.load(offer.seller);
+    if (seller !== null) {
+      seller.balance = seller.balance.plus(offer.price);
+      seller.save();
+    }
+    offer.save();
+  }
+}
+
+export function handleCompleteFailedOffer(event: CompleteFailedOffer): void {
+  let offer = Offer.load(event.params.offerId.toHex());
+  if (offer !== null) {
+    let offerNFT = OfferNFT.load(offer.nft);
+    if (offerNFT !== null) {
+      offerNFT.owner = offer.seller;
+      offerNFT.save();
+    }
+    offer.completedAt = event.block.timestamp;
+    offer.isSold = false;
+    offer.save();
   }
 }
 

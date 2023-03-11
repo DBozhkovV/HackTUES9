@@ -164,6 +164,23 @@ export class Offer extends Entity {
       this.set("cancelledAt", Value.fromBigInt(<BigInt>value));
     }
   }
+
+  get completedAt(): BigInt | null {
+    let value = this.get("completedAt");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set completedAt(value: BigInt | null) {
+    if (!value) {
+      this.unset("completedAt");
+    } else {
+      this.set("completedAt", Value.fromBigInt(<BigInt>value));
+    }
+  }
 }
 
 export class OfferNFT extends Entity {

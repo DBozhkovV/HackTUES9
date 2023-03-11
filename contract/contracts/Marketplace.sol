@@ -23,6 +23,8 @@ contract Marketplace is Ownable, ERC721URIStorage, ERC2771Recipient  {
     );
     event CancelOffer(bytes32 indexed offerId);
     event BuyOffer(bytes32 indexed offerId, address indexed buyer);
+    event CompleteSuccessfullOffer(bytes32 indexed offerId);
+    event CompleteFailedOffer(bytes32 indexed offerId);
     event Deposit(address indexed sender, uint256 amount);
     event Withdraw(address indexed sender, uint256 amount);
 
@@ -35,6 +37,10 @@ contract Marketplace is Ownable, ERC721URIStorage, ERC2771Recipient  {
     constructor(address _tokenAddress, address _trustedForwarder) ERC721("Offer NFT", "NFT") {
         token = S2LToken(_tokenAddress);
         _setTrustedForwarder(_trustedForwarder);
+    }
+
+    function versionRecipient() external pure returns (string memory) {
+        return "1";
     }
 
     function _msgData() internal override(Context, ERC2771Recipient) virtual view returns (bytes calldata ret) {
@@ -90,6 +96,7 @@ contract Marketplace is Ownable, ERC721URIStorage, ERC2771Recipient  {
         uint256 tokenId = _mintNFT(_msgSender(), tokenURI);
         bytes32 offerId = keccak256(abi.encodePacked(_msgSender(), tokenId));
         offers[offerId] = Structs.Offer(
+            offerId,
             _msgSender(),
             address(0),
             address(this),
@@ -98,6 +105,7 @@ contract Marketplace is Ownable, ERC721URIStorage, ERC2771Recipient  {
             itemName,
             itemImage,
             tokenURI,
+            false,
             false,
             false
         );
@@ -113,6 +121,7 @@ contract Marketplace is Ownable, ERC721URIStorage, ERC2771Recipient  {
     }
 
     function cancelOffer(bytes32 offerId) external {
+        require(offers[offerId].id != 0, "Offer does not exist");
         require(offers[offerId].seller == _msgSender(), "Only seller can cancel");
         require(!offers[offerId].isSold, "Offer is already sold");
         require(!offers[offerId].isCancelled, "Offer is already cancelled");
@@ -129,6 +138,7 @@ contract Marketplace is Ownable, ERC721URIStorage, ERC2771Recipient  {
         bytes32 r,
         bytes32 s
     ) external {
+        require(offers[offerId].id != 0, "Offer does not exist");
         require(!offers[offerId].isSold, "Offer is already sold");
         require(!offers[offerId].isCancelled, "Offer is already cancelled");
         require(
@@ -155,20 +165,43 @@ contract Marketplace is Ownable, ERC721URIStorage, ERC2771Recipient  {
         );
         bool success = token.transferFrom(
             _msgSender(),
-            offers[offerId].seller,
+            address(this),
             offers[offerId].price
         );
         require(success, "transferFrom failed");
         offers[offerId].isSold = true;
         offers[offerId].buyer = _msgSender();
-        _transfer(offers[offerId].seller, _msgSender(), offers[offerId].tokenId);
+        _transfer(offers[offerId].seller, address(this), offers[offerId].tokenId);
         emit BuyOffer(offerId, _msgSender());
     }
 
+    function completeSuccessfullOffer(bytes32 offerId) external onlyOwner {
+        require(offers[offerId].id != 0, "Offer does not exist");
+        require(offers[offerId].isSold, "Offer is not sold yet");
+        require(!offers[offerId].isCompleted, "Offer is already completed");
+
+        offers[offerId].isCompleted = true;
+        _transfer(address(this), offers[offerId].buyer, offers[offerId].tokenId);
+        token.transfer(offers[offerId].seller, offers[offerId].price);
+        emit CompleteSuccessfullOffer(offerId);
+    }
+
+    function completeFailedOffer(bytes32 offerId) external onlyOwner {
+        require(offers[offerId].id != 0, "Offer does not exist");
+        require(offers[offerId].isSold, "Offer is not sold yet");
+        require(!offers[offerId].isCompleted, "Offer is already completed");
+
+        offers[offerId].isSold = false;
+        delete offers[offerId].buyer;
+        _transfer(address(this), offers[offerId].seller, offers[offerId].tokenId);
+        token.transfer(offers[offerId].buyer, offers[offerId].price);
+        emit CompleteFailedOffer(offerId);
+    }
+
     function deposit() public payable {
-        token.mint(_msgSender(), msg.value);
+        token.mint(msg.sender, msg.value);
         balance += msg.value;
-        emit Deposit(_msgSender(), msg.value);
+        emit Deposit(msg.sender, msg.value);
     }
 
     function withdraw(uint256 amount) external {

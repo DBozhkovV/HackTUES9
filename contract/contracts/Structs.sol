@@ -3,6 +3,7 @@ pragma solidity ^0.8.9;
 
 library Structs {
     struct Offer {
+        bytes32 id;
         address seller;
         address buyer;
         address nftContract;
@@ -13,5 +14,6 @@ library Structs {
         string tokenURI;
         bool isSold;
         bool isCancelled;
+        bool isCompleted;
     }
 }

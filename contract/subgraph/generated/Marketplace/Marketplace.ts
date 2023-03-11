@@ -102,6 +102,42 @@ export class CancelOffer__Params {
   }
 }
 
+export class CompleteFailedOffer extends ethereum.Event {
+  get params(): CompleteFailedOffer__Params {
+    return new CompleteFailedOffer__Params(this);
+  }
+}
+
+export class CompleteFailedOffer__Params {
+  _event: CompleteFailedOffer;
+
+  constructor(event: CompleteFailedOffer) {
+    this._event = event;
+  }
+
+  get offerId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+}
+
+export class CompleteSuccessfullOffer extends ethereum.Event {
+  get params(): CompleteSuccessfullOffer__Params {
+    return new CompleteSuccessfullOffer__Params(this);
+  }
+}
+
+export class CompleteSuccessfullOffer__Params {
+  _event: CompleteSuccessfullOffer;
+
+  constructor(event: CompleteSuccessfullOffer) {
+    this._event = event;
+  }
+
+  get offerId(): Bytes {
+    return this._event.parameters[0].value.toBytes();
+  }
+}
+
 export class CreateOffer extends ethereum.Event {
   get params(): CreateOffer__Params {
     return new CreateOffer__Params(this);
@@ -281,6 +317,29 @@ export class Marketplace extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
+  getTrustedForwarder(): Address {
+    let result = super.call(
+      "getTrustedForwarder",
+      "getTrustedForwarder():(address)",
+      []
+    );
+
+    return result[0].toAddress();
+  }
+
+  try_getTrustedForwarder(): ethereum.CallResult<Address> {
+    let result = super.tryCall(
+      "getTrustedForwarder",
+      "getTrustedForwarder():(address)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
   isApprovedForAll(owner: Address, operator: Address): boolean {
     let result = super.call(
       "isApprovedForAll",
@@ -299,6 +358,29 @@ export class Marketplace extends ethereum.SmartContract {
       "isApprovedForAll",
       "isApprovedForAll(address,address):(bool)",
       [ethereum.Value.fromAddress(owner), ethereum.Value.fromAddress(operator)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  isTrustedForwarder(forwarder: Address): boolean {
+    let result = super.call(
+      "isTrustedForwarder",
+      "isTrustedForwarder(address):(bool)",
+      [ethereum.Value.fromAddress(forwarder)]
+    );
+
+    return result[0].toBoolean();
+  }
+
+  try_isTrustedForwarder(forwarder: Address): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "isTrustedForwarder",
+      "isTrustedForwarder(address):(bool)",
+      [ethereum.Value.fromAddress(forwarder)]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -412,6 +494,29 @@ export class Marketplace extends ethereum.SmartContract {
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toString());
   }
+
+  versionRecipient(): string {
+    let result = super.call(
+      "versionRecipient",
+      "versionRecipient():(string)",
+      []
+    );
+
+    return result[0].toString();
+  }
+
+  try_versionRecipient(): ethereum.CallResult<string> {
+    let result = super.tryCall(
+      "versionRecipient",
+      "versionRecipient():(string)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toString());
+  }
 }
 
 export class ConstructorCall extends ethereum.Call {
@@ -433,6 +538,10 @@ export class ConstructorCall__Inputs {
 
   get _tokenAddress(): Address {
     return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _trustedForwarder(): Address {
+    return this._call.inputValues[1].value.toAddress();
   }
 }
 
@@ -550,6 +659,66 @@ export class CancelOfferCall__Outputs {
   _call: CancelOfferCall;
 
   constructor(call: CancelOfferCall) {
+    this._call = call;
+  }
+}
+
+export class CompleteFailedOfferCall extends ethereum.Call {
+  get inputs(): CompleteFailedOfferCall__Inputs {
+    return new CompleteFailedOfferCall__Inputs(this);
+  }
+
+  get outputs(): CompleteFailedOfferCall__Outputs {
+    return new CompleteFailedOfferCall__Outputs(this);
+  }
+}
+
+export class CompleteFailedOfferCall__Inputs {
+  _call: CompleteFailedOfferCall;
+
+  constructor(call: CompleteFailedOfferCall) {
+    this._call = call;
+  }
+
+  get offerId(): Bytes {
+    return this._call.inputValues[0].value.toBytes();
+  }
+}
+
+export class CompleteFailedOfferCall__Outputs {
+  _call: CompleteFailedOfferCall;
+
+  constructor(call: CompleteFailedOfferCall) {
+    this._call = call;
+  }
+}
+
+export class CompleteSuccessfullOfferCall extends ethereum.Call {
+  get inputs(): CompleteSuccessfullOfferCall__Inputs {
+    return new CompleteSuccessfullOfferCall__Inputs(this);
+  }
+
+  get outputs(): CompleteSuccessfullOfferCall__Outputs {
+    return new CompleteSuccessfullOfferCall__Outputs(this);
+  }
+}
+
+export class CompleteSuccessfullOfferCall__Inputs {
+  _call: CompleteSuccessfullOfferCall;
+
+  constructor(call: CompleteSuccessfullOfferCall) {
+    this._call = call;
+  }
+
+  get offerId(): Bytes {
+    return this._call.inputValues[0].value.toBytes();
+  }
+}
+
+export class CompleteSuccessfullOfferCall__Outputs {
+  _call: CompleteSuccessfullOfferCall;
+
+  constructor(call: CompleteSuccessfullOfferCall) {
     this._call = call;
   }
 }
@@ -788,6 +957,36 @@ export class SetS2LContractCall__Outputs {
   _call: SetS2LContractCall;
 
   constructor(call: SetS2LContractCall) {
+    this._call = call;
+  }
+}
+
+export class SetTrustedForwarderCall extends ethereum.Call {
+  get inputs(): SetTrustedForwarderCall__Inputs {
+    return new SetTrustedForwarderCall__Inputs(this);
+  }
+
+  get outputs(): SetTrustedForwarderCall__Outputs {
+    return new SetTrustedForwarderCall__Outputs(this);
+  }
+}
+
+export class SetTrustedForwarderCall__Inputs {
+  _call: SetTrustedForwarderCall;
+
+  constructor(call: SetTrustedForwarderCall) {
+    this._call = call;
+  }
+
+  get _trustedForwarder(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class SetTrustedForwarderCall__Outputs {
+  _call: SetTrustedForwarderCall;
+
+  constructor(call: SetTrustedForwarderCall) {
     this._call = call;
   }
 }

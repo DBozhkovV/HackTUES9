@@ -5,6 +5,8 @@ import {
   ApprovalForAll,
   BuyOffer,
   CancelOffer,
+  CompleteFailedOffer,
+  CompleteSuccessfullOffer,
   CreateOffer,
   Deposit,
   OwnershipTransferred,
@@ -84,6 +86,36 @@ export function createCancelOfferEvent(offerId: Bytes): CancelOffer {
   )
 
   return cancelOfferEvent
+}
+
+export function createCompleteFailedOfferEvent(
+  offerId: Bytes
+): CompleteFailedOffer {
+  let completeFailedOfferEvent = changetype<CompleteFailedOffer>(newMockEvent())
+
+  completeFailedOfferEvent.parameters = new Array()
+
+  completeFailedOfferEvent.parameters.push(
+    new ethereum.EventParam("offerId", ethereum.Value.fromFixedBytes(offerId))
+  )
+
+  return completeFailedOfferEvent
+}
+
+export function createCompleteSuccessfullOfferEvent(
+  offerId: Bytes
+): CompleteSuccessfullOffer {
+  let completeSuccessfullOfferEvent = changetype<CompleteSuccessfullOffer>(
+    newMockEvent()
+  )
+
+  completeSuccessfullOfferEvent.parameters = new Array()
+
+  completeSuccessfullOfferEvent.parameters.push(
+    new ethereum.EventParam("offerId", ethereum.Value.fromFixedBytes(offerId))
+  )
+
+  return completeSuccessfullOfferEvent
 }
 
 export function createCreateOfferEvent(
