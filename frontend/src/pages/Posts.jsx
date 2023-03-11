@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router';
 function Posts() {
   const [showModal, setShowModal] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [coments, setComents] = useState([]);
+  const [likes, setLikes] = useState();
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
   const navigate = useNavigate();
@@ -24,8 +26,41 @@ function Posts() {
           })
     }
     getPosts();
+    GetLike();
+    GetPost();
   }, []);
-  
+   const Like = async (postId) => {
+      await axios.post(`https://localhost:7160/Like`,{
+        postId: postId
+      }, { withCredentials: true })
+          .then(() => {
+              GetLike(postId);
+          })
+          .catch(error => {
+              console.error(error);
+          })
+    }
+    const GetLike = async (postId) => {
+      await axios.get(`https://localhost:7160/GetLikes?feedId=${postId}`, { withCredentials: true })
+          .then(res => {
+              setLikes(res.data);
+          })
+          .catch(error => {
+              console.error(error);
+          })
+    }
+
+    const GetPost = async (postId) => {
+      await axios.get(`https://localhost:7160/GetLikes?feedId=${postId}`, { withCredentials: true })
+          .then(res => {
+              setComents(res.data);
+          })
+          .catch(error => {
+              console.error(error);
+          })
+    }
+
+  console.log(likes);
   const handleSubmit = async (event) => {
     event.preventDefault();
     await axios.post(`https://localhost:7160/AddPost`, {
@@ -39,6 +74,7 @@ function Posts() {
       console.log(error);
     });
   };
+  
 
   const handleTextChange = (event) => {
     setText(event.target.value);
@@ -47,6 +83,10 @@ function Posts() {
   const handlePictureChange = (event) => {
     setPicture(event.target.files[0]);
   };
+  useEffect(() => {
+
+
+  }, [likes])
 
   return (
     <div className='post-frame'>
@@ -94,8 +134,12 @@ function Posts() {
                 {<Image src={`https://dwc1e0311jht7.cloudfront.net/${post.key}`} alt="Post Image" style={{ maxWidth: "300px", maxHeight: "300px" }} fluid rounded />}
                 <Card.Body className="custom-card-body">
                 <Card.Text>{post.description}</Card.Text>
+                <Button variant="primary" onClick={()=>{Like(post.feedId)}}>Like </Button>
+                <p>Lieks:{likes}</p>
+
 
                 </Card.Body>
+
 
               </Card>
         ))}
