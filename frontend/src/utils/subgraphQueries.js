@@ -42,3 +42,22 @@ export const USER_OFFERS_QUERY = gql`
         }
     }
 `;	
+
+export const ACCEPTED_OFFERS_QUERY = gql`
+    query acceptedOffers {
+        offers{
+            id
+            price
+            itemName
+            itemImage
+            nft{
+                tokenId
+                tokenURI
+            }
+            seller {
+                id
+                address
+            }
+        }
+    }
+`;

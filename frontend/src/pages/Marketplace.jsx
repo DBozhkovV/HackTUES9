@@ -9,7 +9,7 @@ import UserOffersModal from '../components/UserOffersModal';
 import InfiniteScroll from '@alexcambose/react-infinite-scroll';
 import { useWeb3Context } from '../hooks/useWeb3Context';
 import { ethers } from 'ethers';
-
+import MockApiCalls from '../components/MockApiCalls';
 function Marketplace() {
   const [offers, setOffers] = useState([]);
   const [hasMoreOffers, setHasMoreOffers] = useState(true);
@@ -64,6 +64,7 @@ function Marketplace() {
           </div>
         ) : null}
       </div>
+      <MockApiCalls />
       <div className="mt-5">
 
               <InfiniteScroll
