@@ -69,12 +69,13 @@ function UserOffersModal() {
                             return (
                                 <div key={index} className='row w-75 d-flex justify-content-start'>
                                 {
-                                    offers.slice(index, index + 4).map((offer) =>
+                                        offers.slice(index, index + 4).map((offer) =>
                                         <div key={offer.id} className='w-25 col-3 d-flex flex-wrap text-wrap ticket-card'>
                                             <div className='d-flex flex-column justify-content-center align-items-center align-content-center'>
-                                                <p>{offer.itemName}</p>
-                                                <p>sold: {offer.isSold}</p>
-                                                <p>delivered: {offer.isCompleted}</p>
+                                                {offer.itemName}
+                                                {offer.isSold}
+                                                {offer.isCompleted}
+                                                {offer.isCanceled}
                                                 <Button onClick={() => callSuccessHandler(offer.id)} className='my-2'>Successful delivery</Button>
                                                 <Button onClick={() => callErrorHandler(offer.id)}>Unsuccessful delivery</Button>
                                             </div>

@@ -45,7 +45,7 @@ export const USER_OFFERS_QUERY = gql`
 
 export const ACCEPTED_OFFERS_QUERY = gql`
     query acceptedOffers {
-        offers{
+        offers (where : { isSold: true }) {
             id
             price
             itemName
