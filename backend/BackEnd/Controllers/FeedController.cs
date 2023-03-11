@@ -150,8 +150,7 @@ namespace BackEnd.Controllers
         public async Task<IActionResult> GetLikes(Guid feedId)
         {
             var likes = _context.Likes
-                .Where(x => x.FeedId.Equals(feedId))
-                .ToList();
+                .Where(x => x.FeedId.Equals(feedId)).Count();
             return Ok(likes);
         }
         
