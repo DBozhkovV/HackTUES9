@@ -5,9 +5,9 @@ const Chat = () => {
 
     const joinChat = async () => {
         const connection = new HubConnectionBuilder()
-        .withUrl("https://127.0.0.1:3000/chat")
-        .configureLogging(LogLevel.Information)
-        .build();
+            .withUrl("https://127.0.0.1:3000/chat")
+            .configureLogging(LogLevel.Information)
+            .build();
 
         connection.on("ReceiveMessage", (senderId, receiverId, message) => {
             console.log(`Message received: Sender ID = ${senderId}, Receiver ID = ${receiverId}, Message = ${message}`);

@@ -4,6 +4,7 @@ using BackEnd.Data.Models;
 using BackEnd.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace BackEnd.Controllers
@@ -49,6 +50,24 @@ namespace BackEnd.Controllers
 
             return Ok(chatMessage);
         }
+
+        [HttpGet]
+        [Route("getMessages/{receiverId}")]
+        public async Task<IActionResult> GetMessagesAsync([FromRoute] Guid receiverId)
+        {
+            var senderId = Guid.Parse(HttpContext.Session.GetString("userId"));
+
+            // Retrieve messages between the sender and receiver
+            var messages = await _context.Messages
+                .Where(m =>
+                    (m.SenderId == senderId && m.ReceiverId == receiverId) ||
+                    (m.SenderId == receiverId && m.ReceiverId == senderId))
+                .OrderBy(m => m.DateTimeSent)
+                .ToListAsync();
+
+            return Ok(messages);
+        }
+
 
 
 
