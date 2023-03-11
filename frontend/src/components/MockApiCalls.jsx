@@ -6,8 +6,8 @@ import { useQuery } from '@apollo/client';
 import InfiniteScroll from '@alexcambose/react-infinite-scroll';
 function UserOffersModal() {
     const [show, setShow] = useState(false);
-    const { account } = useWeb3Context();
     const [offers, setOffers] = useState([]);
+    const { account, contract } = useWeb3Context();
     const [hasMoreOffers, setHasMoreOffers] = useState(true);
     const { data, loading, fetchMore: fetchMore, error } = useQuery(ACCEPTED_OFFERS_QUERY, {
         variables: {
@@ -36,11 +36,11 @@ function UserOffersModal() {
     });
     };
     
-    const callSuccessHandler = () => {
-        console.log('success');
+    const callSuccessHandler = (id) => {
+        contract.completeSuccessfullOffer(id);
     }
     const callErrorHandler = () => {
-        console.log('error');
+        contract.completeFailedOffer(id);
     }
     
     
@@ -73,8 +73,10 @@ function UserOffersModal() {
                                         <div key={offer.id} className='w-25 col-3 d-flex flex-wrap text-wrap ticket-card'>
                                             <div className='d-flex flex-column justify-content-center align-items-center align-content-center'>
                                                 <p>{offer.itemName}</p>
-                                                <Button onClick={callSuccessHandler} className='my-2'>Successful delivery</Button>
-                                                <Button onClick={callErrorHandler}>Unsuccessful delivery</Button>
+                                                <p>sold: {offer.isSold}</p>
+                                                <p>delivered: {offer.isCompleted}</p>
+                                                <Button onClick={() => callSuccessHandler(offer.id)} className='my-2'>Successful delivery</Button>
+                                                <Button onClick={() => callErrorHandler(offer.id)}>Unsuccessful delivery</Button>
                                             </div>
                                     </div>
                                     )

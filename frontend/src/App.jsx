@@ -43,33 +43,14 @@ function App() {
   );
   useEffect(() => {
     const initBiconomy = async () => {
-      console.log(provider.provider)
+      console.log(import.meta.env.VITE_GASLESS_API_KEY)
       biconomy = new Biconomy(provider.provider, {
-        apiKey: "wlnXh2xPR.b50fb782-ea61-4b5f-8c21-158f36b81005",
+        apiKey: import.meta.env.VITE_GASLESS_API_KEY,
         debug: true,
-        contractAddresses: [MARKETPLACE_ADDRESS, S2L_ADDRESS],
+        contractAddresses: [MARKETPLACE_ADDRESS],
       });
       console.log(biconomy)
       await biconomy.init();
-      // const provider = await biconomy.provider;
-      // const contractInstance = new ethers.Contract(
-      //   MARKETPLACE_ADDRESS,
-      //   MARKETPLACE_ABI.abi,
-      //   biconomy.ethersProvider
-      // );
-      // let { data } = await contractInstance.populateTransaction.deposit({ value : ethers.utils.parseEther('0.001')});
-      // console.log("tddasdasasdasd", data);
-      // let txParams = {
-      //   data: data,
-      //   to: MARKETPLACE_ADDRESS,
-      //   from: "0xE041608922d06a4F26C0d4c27d8bCD01daf1f792",
-      //   signatureType: "EIP712_SIGN",
-      //   gasLimit: 5000000,
-      // };
-      // console.log("txParams", txParams);
-      // console.log(provider)
-      // const tx = await provider.send("eth_sendTransaction", [txParams]);
-      // console.log(tx);
     };
     if (account && provider) initBiconomy();
   }, [account, provider]);

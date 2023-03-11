@@ -9,7 +9,7 @@ function Withdraw() {
   const [show, setShow] = useState(false);
   const [withdrawAmount, setWithdrawAmount] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
-  const { contract, balance, setBalanceUpdate, biconomy } = useWeb3Context();
+  const { contract, balance, setBalanceUpdate, biconomy, account } = useWeb3Context();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleCloseSuccess = () => {

@@ -1,0 +1,46 @@
+specVersion: 0.0.5
+schema:
+    file: ./schema.graphql
+dataSources:
+    - kind: ethereum
+      name: Marketplace
+      network: goerli
+      source:
+          address: "0xfd9Fb69E8BF6dcd0D0247268Fc18b7C9cB0471f5"
+          abi: Marketplace
+          startBlock: 0
+      mapping:
+          kind: ethereum/events
+          apiVersion: 0.0.7
+          language: wasm/assemblyscript
+          entities:
+              - Offer
+              - OfferNFT
+              - User
+          abis:
+              - name: Marketplace
+                file: ./abis/Marketplace.json
+          eventHandlers:
+              - event: Approval(indexed address,indexed address,indexed uint256)
+                handler: handleApproval
+              - event: ApprovalForAll(indexed address,indexed address,bool)
+                handler: handleApprovalForAll
+              - event: BuyOffer(indexed bytes32,indexed address)
+                handler: handleBuyOffer
+              - event: CancelOffer(indexed bytes32)
+                handler: handleCancelOffer
+              - event: CompleteFailedOffer(indexed bytes32)
+                handler: handleCompleteFailedOffer
+              - event: CompleteSuccessfullOffer(indexed bytes32)
+                handler: handleCompleteSuccessfullOffer
+              - event: CreateOffer(indexed bytes32,indexed address,indexed uint256,string,uint256,string,string)
+                handler: handleCreateOffer
+              - event: Deposit(indexed address,uint256)
+                handler: handleDeposit
+              - event: OwnershipTransferred(indexed address,indexed address)
+                handler: handleOwnershipTransferred
+              - event: Transfer(indexed address,indexed address,indexed uint256)
+                handler: handleTransfer
+              - event: Withdraw(indexed address,uint256)
+                handler: handleWithdraw
+          file: ./src/marketplace.ts

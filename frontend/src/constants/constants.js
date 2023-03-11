@@ -1,5 +1,5 @@
-export const S2L_ADDRESS = '0xf7e9f5c1BF46DE0f5501c72a0DC13119649EF970';
-export const MARKETPLACE_ADDRESS = '0x8D599fA8130D7f587ddf693396ef049CD77B767D';
+export const S2L_ADDRESS = '0x90daFBb63a1CdF13A79B3488F4408cb3850B8310';
+export const MARKETPLACE_ADDRESS = '0xfd9Fb69E8BF6dcd0D0247268Fc18b7C9cB0471f5';
 export const SUBGRAPH_URL =
-    'https://api.studio.thegraph.com/query/39731/hacktues9/v0.0.9';
+    'https://api.studio.thegraph.com/query/39731/hacktues9/v0.1.2';
 export const W3LINK_URL = 'https://w3s.link/ipfs';

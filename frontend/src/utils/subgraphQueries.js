@@ -50,6 +50,9 @@ export const ACCEPTED_OFFERS_QUERY = gql`
             price
             itemName
             itemImage
+            isSold
+            isCompleted
+            isCancelled
             nft{
                 tokenId
                 tokenURI

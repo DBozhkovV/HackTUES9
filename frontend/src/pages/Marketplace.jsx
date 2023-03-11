@@ -66,7 +66,6 @@ function Marketplace() {
       </div>
       <MockApiCalls />
       <div className="mt-5">
-
               <InfiniteScroll
                 hasMore={hasMoreOffers}
                 loadMore={loadMoreOffers}

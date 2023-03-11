@@ -88,10 +88,8 @@ function Header() {
                 />
                 <span>{truncate(account, 6)}</span>
                 <span className="mx-3">|</span>
-                <p>
-                  <span className="fw-bold">Balance: </span>
-                  <span>{balance} S2L</span>
-                </p>
+                <span className="fw-bold me-1">Balance: </span>
+                <span>{balance} S2L</span>
               </div>
             ) : (
               null

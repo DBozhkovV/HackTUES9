@@ -113,6 +113,15 @@ export class Offer extends Entity {
     this.set("isCancelled", Value.fromBoolean(value));
   }
 
+  get isCompleted(): boolean {
+    let value = this.get("isCompleted");
+    return value!.toBoolean();
+  }
+
+  set isCompleted(value: boolean) {
+    this.set("isCompleted", Value.fromBoolean(value));
+  }
+
   get nft(): string {
     let value = this.get("nft");
     return value!.toString();

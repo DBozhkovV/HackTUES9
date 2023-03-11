@@ -54,12 +54,11 @@ function Offer({ offer }) {
           e.preventDefault();
           e.stopPropagation();
           setValidated(true);
-          
           const permit = await onAttemptToApprove(
             contract,
             tokenContract,
             account,
-            offer.price,
+            ethers.utils.formatEther(offer.price.toString()),
             + new Date() + 1000 * 60 * 5
           );
           // call backend then call this
@@ -81,18 +80,30 @@ function Offer({ offer }) {
           .then(res =>console.log(res) )
           .catch(err=> console.error(err));
 
-          const tx = await contract.buyOffer(
+          const provider = await biconomy.provider;
+          const contractInstance = new ethers.Contract(
+            MARKETPLACE_ADDRESS,
+            MARKETPLACE_ABI.abi,
+            biconomy.ethersProvider
+          );
+          let { data } = await contractInstance.populateTransaction.buyOffer(
             offer.id,
             permit.deadline,
             permit.v,
             permit.r,
             permit.s,
-            
           );
-          tx.wait().then(() => {
-            setBalanceUpdate(true);
-            handleClose();
-          });
+          let txParams = {
+            data: data,
+            to: MARKETPLACE_ADDRESS,
+            from: account,
+            signatureType: "PERSONAL_SIGN",
+            gasLimit: 5000000,
+          };
+          console.log("txParams", txParams);
+          console.log(provider)
+          const tx = await provider.send("eth_sendTransaction", [txParams]);
+          setBalanceUpdate(true);
         }
     }
   return (

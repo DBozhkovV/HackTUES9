@@ -66,6 +66,7 @@ export function handleCreateOffer(event: CreateOffer): void {
   offer.seller = user.id;
   offer.isSold = false;
   offer.isCancelled = false;
+  offer.isCompleted = false;
   offer.createdAt = event.block.timestamp;
   offer.save();
 }
@@ -98,6 +99,7 @@ export function handleCompletedOfferSuccess(event: CompleteSuccessfullOffer): vo
       seller.balance = seller.balance.plus(offer.price);
       seller.save();
     }
+    offer.isCompleted = true;
     offer.save();
   }
 }
