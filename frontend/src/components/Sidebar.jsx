@@ -40,10 +40,7 @@ const Sidebar = () => {
         </CDBSidebarHeader>
         <CDBSidebarContent className="sidebar-content">
           <CDBSidebarMenu>  
-            <NavLink className="activeClicked" onClick={() => setShowFriendRequest(true)}>
-              <SendFriendRequest show={showFriendRequest} onHide={() => setShowFriendRequest(false)} />
-              <CDBSidebarMenuItem icon="columns">Send friend request</CDBSidebarMenuItem>
-            </NavLink>
+            <SendFriendRequest/>
             <NavLink to="/requests" className="activeClicked">
               <CDBSidebarMenuItem icon="columns">See your friend requests</CDBSidebarMenuItem>
             </NavLink>

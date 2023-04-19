@@ -39,7 +39,7 @@ function UserOffersModal() {
     const callSuccessHandler = (id) => {
         contract.completeSuccessfullOffer(id);
     }
-    const callErrorHandler = () => {
+    const callErrorHandler = (id) => {
         contract.completeFailedOffer(id);
     }
     

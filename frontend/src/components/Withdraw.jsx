@@ -52,7 +52,7 @@ function Withdraw() {
         to: MARKETPLACE_ADDRESS,
         from: account,
         signatureType: "PERSONAL_SIGN",
-        gasLimit: 5000000,
+        gasLimit: 1000000,
       };
       const tx = await provider.send("eth_sendTransaction", [txParams]);    
       handleClose();
