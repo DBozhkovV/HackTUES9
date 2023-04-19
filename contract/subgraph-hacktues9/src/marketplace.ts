@@ -85,7 +85,7 @@ export function handleDeposit(event: Deposit): void {
   }
 }
 
-export function handleCompletedOfferSuccess(event: CompleteSuccessfullOffer): void {
+export function handleCompleteOfferSuccess(event: CompleteSuccessfullOffer): void {
   let offer = Offer.load(event.params.offerId.toHex());
   if (offer !== null) {
     let offerNFT = OfferNFT.load(offer.nft);

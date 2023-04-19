@@ -32,7 +32,7 @@ dataSources:
               - event: CompleteFailedOffer(indexed bytes32)
                 handler: handleCompleteFailedOffer
               - event: CompleteSuccessfullOffer(indexed bytes32)
-                handler: handleCompleteSuccessfullOffer
+                handler: handleCompleteOfferSuccess
               - event: CreateOffer(indexed bytes32,indexed address,indexed uint256,string,uint256,string,string)
                 handler: handleCreateOffer
               - event: Deposit(indexed address,uint256)
